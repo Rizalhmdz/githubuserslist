@@ -1,73 +1,57 @@
 package com.example.githubuserslist
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.AdapterView
-import android.widget.ListView
-import android.widget.Toast
+import android.view.View
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.githubuserslist.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var adapter : UserAdapter
+    private lateinit var adapter: UserAdapter
+    private lateinit var mainViewModel: MainViewModel
+    private lateinit var binding: ActivityMainBinding
 
-    private lateinit var dataNama : Array<String>
-    private lateinit var dataUsername : Array<String>
-    private lateinit var dataPP : Array<String>
-    private lateinit var dataFollowers : Array<String>
-    private lateinit var dataFollowing : Array<String>
-    private lateinit var dataLokasi : Array<String>
-
-    private var users = arrayListOf<User>()
+    companion object {
+        val TAG = MainActivity::class.java.simpleName
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val listView : ListView = findViewById(R.id.lv_main)
-        adapter = UserAdapter(this)
-        listView.adapter = adapter
+        adapter = UserAdapter()
+        adapter.notifyDataSetChanged()
 
-        prepare()
-        addItem()
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.adapter = adapter
 
-        listView.onItemClickListener = AdapterView.OnItemClickListener{ _, _, position, _ ->
-            val user = User(
-                    users[position].nama,
-                    users[position].username,
-                    users[position].profile_pict,
-                    users[position].followers,
-                    users[position].following,
-                    users[position].lokasi
-                    )
-            val lihatDetail = Intent(this@MainActivity, UserDetail::class.java)
-            lihatDetail.putExtra(UserDetail.DATA_NAMA, user)
-            startActivity(lihatDetail)
+        mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
+
+        binding.btnSearch.setOnClickListener {
+            val city = binding.editUsername.text.toString()
+
+            if (city.isEmpty()) return@setOnClickListener
+
+            showLoading(true)
+            mainViewModel.getDataGitSearch(city, this)
         }
+
+        mainViewModel.getUsers().observe(this, { userItems ->
+            if (userItems != null) {
+                adapter.setData(userItems)
+                showLoading(false)
+            }
+        })
     }
 
-    private fun addItem() {
-        for(position in dataNama.indices){
-            val user = User(
-                    dataNama[position],
-                    dataUsername[position],
-                    dataPP[position],
-                    dataFollowers[position],
-                    dataFollowing[position],
-                    dataLokasi[position]
-            )
-            users.add(user)
+    private fun showLoading(state: Boolean) {
+        if (state) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
         }
-        adapter.user = users
-    }
-
-    private fun prepare() {
-        dataNama = resources.getStringArray(R.array.data_nama)
-        dataUsername = resources.getStringArray(R.array.data_username)
-        dataPP = resources.getStringArray(R.array.data_pp)
-        dataFollowers = resources.getStringArray(R.array.data_followers)
-        dataFollowing = resources.getStringArray(R.array.data_following)
-        dataLokasi = resources.getStringArray(R.array.data_location)
-
     }
 }

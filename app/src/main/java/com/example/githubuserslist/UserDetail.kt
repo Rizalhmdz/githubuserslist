@@ -16,21 +16,22 @@ class UserDetail : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityUserDetailBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        val user = intent.getParcelableExtra<User>(DATA_NAMA) as User
-        binding.namaDetail.text = user.nama
-
-        user.nama?.let { setActionBarTitle(it) }
-
-        binding.usernameDetail.text = "@"+user.username
-        Glide.with(this)
-                .load(user.profile_pict)
-                .into(binding.detailPp)
-        binding.detaiFollowers.text = user.followers
-        binding.detailFollowing.text = user.following
-        binding.detailLokasi.text = user.lokasi
+//        super.onCreate(savedInstanceState)
+//        binding = ActivityUserDetailBinding.inflate(layoutInflater)
+//        setContentView(binding.root)
+//
+//        val user = intent.getParcelableExtra<UserItems>(DATA_NAMA) as UserItems
+//        binding.namaDetail.text = user.name
+//
+//        user.name?.let { setActionBarTitle(it) }
+//
+//        binding.usernameDetail.text = "@"+user.username
+//        Glide.with(this)
+//                .load(user.profile_picture)
+//                .into(binding.detailPp)
+//        binding.detaiFollowers.text = user.followers
+//        binding.detailFollowing.text = user.following
+//        binding.detailLokasi.text = user.location
     }
 
     private fun setActionBarTitle(title: String) {

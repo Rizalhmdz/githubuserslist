@@ -7,10 +7,6 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
-    buildFeatures {
-        viewBinding true
-    }
-
     defaultConfig {
         applicationId "com.example.githubuserslist"
         minSdkVersion 21
@@ -56,4 +52,11 @@ dependencies {
 
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'com.loopj.android:android-async-http:1.4.9'
+
+    implementation 'com.google.code.gson:gson:2.6.2'
+    implementation 'com.squareup.retrofit2:retrofit:2.0.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.0.2'
+    //recyclerview
+//    implementation 'com.android.support:recyclerview-v7:24.2.0'
+
 }

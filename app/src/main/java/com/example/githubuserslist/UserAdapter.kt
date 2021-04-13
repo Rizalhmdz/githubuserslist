@@ -1,53 +1,43 @@
 package com.example.githubuserslist
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import de.hdodenhof.circleimageview.CircleImageView
+import com.example.githubuserslist.databinding.UserItemsBinding
 
-class UserAdapter internal constructor(private val context: Context) : BaseAdapter(){
-    internal var user = arrayListOf<User>()
+class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
-    override fun getView(position: Int, view: View?, viewGroup: ViewGroup?): View {
-        var itemView = view
-        if(itemView == null){
-            itemView = LayoutInflater.from(context).inflate(R.layout.item_list, viewGroup, false)
+    private val mData = ArrayList<UserItems>()
+    fun setData(items: ArrayList<UserItems>) {
+        mData.clear()
+        mData.addAll(items)
+        notifyDataSetChanged()
+    }
+
+    override fun onCreateViewHolder(viewGroup: ViewGroup, position: Int): UserViewHolder {
+        val mView = LayoutInflater.from(viewGroup.context).inflate(R.layout.user_items, viewGroup, false)
+        return UserViewHolder(mView)
+    }
+
+    override fun onBindViewHolder(weatherViewHolder: UserViewHolder, position: Int) {
+        weatherViewHolder.bind(mData[position])
+    }
+
+    override fun getItemCount(): Int = mData.size
+
+        inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            private val binding = UserItemsBinding.bind(itemView)
+            fun bind(userItems: UserItems) {
+                with(itemView){
+                    binding.tvUsername.text = userItems.username
+                    binding.tvNama.text = userItems.name
+
+                    Glide.with(binding.imgPp)
+                        .load(userItems.profile_picture)
+                        .into(binding.imgPp)
+                }
+            }
         }
-
-        val viewHolder = ViewHolder(itemView as View)
-
-        val user = getItem(position) as User
-        viewHolder.bind(user)
-        return itemView
-    }
-
-    override fun getItem(i: Int): Any {
-        return user[i]
-    }
-
-    override fun getItemId(i: Int): Long {
-        return i.toLong()
-    }
-
-    override fun getCount(): Int {
-        return user.size
-    }
-
-    private inner class ViewHolder internal  constructor(view: View){
-        private val tvNama: TextView = view.findViewById(R.id.tv_nama)
-        private val tvUsername : TextView = view.findViewById(R.id.tv_username)
-        private val imgPP : CircleImageView = view.findViewById(R.id.img_pp)
-
-        internal  fun bind(user: User){
-            tvNama.text = user.nama
-            tvUsername.text = user.username
-            Glide.with(imgPP)
-                .load(user.profile_pict)
-                .into(imgPP)
-        }
-    }
 }
