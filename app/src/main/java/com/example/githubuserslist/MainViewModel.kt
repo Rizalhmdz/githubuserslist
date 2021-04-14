@@ -12,17 +12,16 @@ import cz.msebera.android.httpclient.Header
 import org.json.JSONObject
 
 class MainViewModel : ViewModel() {
-//    private val listUsers = MutableLiveData<ArrayList<UserItems>>()
+
     private val listUsersNonMutable = ArrayList<UserItems>()
     private val listUsersMutable = MutableLiveData<ArrayList<UserItems>>()
-    private val apiKey = "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"
+    private val apiKey = "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"
 
     fun getUsers(): LiveData<ArrayList<UserItems>> {
         return listUsersMutable
     }
 
     fun getDataGitSearch(keyword: String, context: Context) {
-
         val client = AsyncHttpClient()
         client.addHeader("Authorization", apiKey)
         client.addHeader("User-Agent", "request")
@@ -45,7 +44,6 @@ class MainViewModel : ViewModel() {
                     Log.d("Exception", e.message.toString())
                 }
             }
-
             override fun onFailure(statusCode: Int, headers: Array<Header>, responseBody: ByteArray, error: Throwable) {
                 Log.d("onFailure", error.message.toString())
             }
@@ -86,22 +84,9 @@ class MainViewModel : ViewModel() {
                     e.printStackTrace()
                 }
             }
-
-            override fun onFailure(
-                    statusCode: Int,
-                    headers: Array<out Header>?,
-                    responseBody: ByteArray?,
-                    error: Throwable?
-            ) {
-                val errorMessage = when (statusCode) {
-                    401 -> "$statusCode : Bad Request"
-                    403 -> "$statusCode : Forbidden"
-                    404 -> "$statusCode : Not Found"
-                    else -> "$statusCode : ${error?.message}"
-                }
-                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+            override fun onFailure(statusCode: Int, headers: Array<Header>, responseBody: ByteArray, error: Throwable) {
+                Log.d("onFailure", error.message.toString())
             }
-
         })
     }
 }

@@ -16,7 +16,6 @@ class UserDetail : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        super.onCreate(savedInstanceState)
 //        binding = ActivityUserDetailBinding.inflate(layoutInflater)
 //        setContentView(binding.root)
 //

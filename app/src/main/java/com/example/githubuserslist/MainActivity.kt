@@ -1,5 +1,6 @@
 package com.example.githubuserslist
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -13,6 +14,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mainViewModel: MainViewModel
     private lateinit var binding: ActivityMainBinding
 
+    private var listDataUser: ArrayList<UserItems> = ArrayList()
+
     companion object {
         val TAG = MainActivity::class.java.simpleName
     }
@@ -21,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         adapter = UserAdapter()
         adapter.notifyDataSetChanged()

@@ -1,5 +1,6 @@
 package com.example.githubuserslist
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,7 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.githubuserslist.databinding.UserItemsBinding
 
-class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+class UserAdapter()
+    : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+
+//    interface OnItemClickCallback {
+//        fun onItemClick(data: UserItems)
+//    }
+
 
     private val mData = ArrayList<UserItems>()
     fun setData(items: ArrayList<UserItems>) {
@@ -21,8 +28,28 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
         return UserViewHolder(mView)
     }
 
-    override fun onBindViewHolder(weatherViewHolder: UserViewHolder, position: Int) {
-        weatherViewHolder.bind(mData[position])
+    override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
+        val data = holder.bind(mData[position])
+        holder.itemView.setOnClickListener {
+            val dataUserIntent = UserItems(
+//                    data.username,
+//                    data.name,
+//                    data.avatar,
+//                    data.company,
+//                    data.location,
+//                    data.repository,
+//                    data.followers,
+//                    data.following
+            )
+            val mIntent = Intent(it.context, UserDetail::class.java)
+//            mIntent.putExtra(UserDetail.EXTRA_DETAIL, dataUserIntent)
+            it.context.startActivity(mIntent)
+        }
+
+//        holder.itemView.setOnClickListener() {
+//            onItemClickCallback
+//                    .onItemClick(listUser[holder.adapterPosition])
+//        }
     }
 
     override fun getItemCount(): Int = mData.size
