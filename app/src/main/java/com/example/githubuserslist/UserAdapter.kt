@@ -1,6 +1,7 @@
 package com.example.githubuserslist
 
 import android.content.Intent
+import android.provider.Settings.Global.getString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,13 +49,11 @@ class UserAdapter() : RecyclerView.Adapter<UserAdapter.UserViewHolder>(){
         fun bind(userItems: UserItems) {
             with(itemView){
                 binding.tvUsername.text = userItems.username
-                binding.tvNama.text = userItems.name
+                if(userItems.name == "null") binding.tvNama.text = resources.getString(R.string.null_name)
+                else binding.tvNama.text = userItems.name
                 Glide.with(binding.imgPp)
                         .load(userItems.profile_picture)
                         .into(binding.imgPp)
-                binding.tvFollowers.text = userItems.followers
-                binding.tvFollowing.text = userItems.following
-                binding.tvLocation.text = userItems.location
             }
         }
     }

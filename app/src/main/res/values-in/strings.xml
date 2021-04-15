@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">GithubUsersList</string>
+    <string name="search_viewholder">Cari disini...</string>
+    <string name="search">Cari</string>
+    <string name="follower">pengikut</string>
+    <string name="following">mengikuti</string>
+    <string name="tab_text_1">Mengikuti</string>
+    <string name="tab_text_2">Pengikut</string>
+    <string name="search_page">cari disini</string>
+    <string name="no_result">tidak ada hasil untuk</string>
+    <string name="no_set">belum diatur</string>
+    <string name="null_username">-</string>
+    <string name="null_name">-</string>
+    <string name="following_text">Mengikuti</string>
+    <string name="followers_text">Pengikut</string>
+    <string name="location_text">Lokasi</string>
+    <string name="total_text">jumlah</string>
+    <string name="username_text">username</string>
+    <string name="name_text">teks_nama</string>
+    <string name="change_languange">Ganti Bahasa</string>
+</resources>

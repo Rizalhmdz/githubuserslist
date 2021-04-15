@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="80dp">
 
@@ -24,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:layout_toEndOf="@+id/img_pp"
-        android:text="nama_akun"
+        android:text="@string/name_text"
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +37,7 @@
         android:layout_below="@+id/tv_nama"
         android:layout_toRightOf="@+id/img_pp"
         android:ellipsize="end"
-        android:text="username"
+        android:text="@string/username_text"
         android:textSize="13sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/tv_nama"
@@ -47,24 +46,5 @@
         app:layout_constraintStart_toEndOf="@+id/img_pp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/tv_followers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        tools:ignore="MissingConstraints" />
-    <TextView
-        android:id="@+id/tv_following"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        tools:ignore="MissingConstraints" />
-    <TextView
-        android:id="@+id/tv_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

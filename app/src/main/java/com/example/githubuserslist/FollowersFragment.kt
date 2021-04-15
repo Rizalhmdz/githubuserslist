@@ -1,16 +1,13 @@
 package com.example.githubuserslist
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_following.*
 
 
@@ -18,19 +15,15 @@ class FollowersFragment : Fragment() {
 
     private lateinit var adapter: UserAdapter
     private lateinit var mainViewModel: MainViewModel
-
+    private lateinit var followersViewModel: MainViewModel
 
     companion object {
         const val EXTRA_USERNAME = "extra_username"
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_following, container, false)
     }
-
-    private lateinit var followersViewModel: MainViewModel
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,6 +31,10 @@ class FollowersFragment : Fragment() {
         adapter = UserAdapter()
         adapter.notifyDataSetChanged()
 
+        setList()
+    }
+
+    private fun setList() {
         rv_following_fragment.layoutManager = LinearLayoutManager(activity)
         rv_following_fragment.adapter = adapter
         mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)

@@ -2,12 +2,20 @@
     <string name="app_name">GithubUsersList</string>
     <string name="search_viewholder">Search here...</string>
     <string name="search">Search</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="follower">follower</string>
     <string name="following">following</string>
     <string name="tab_text_1">Following</string>
     <string name="tab_text_2">Followers</string>
     <string name="search_page">search in here</string>
     <string name="no_result">No results found for</string>
+    <string name="no_set">not set up yet</string>
+    <string name="null_username">-</string>
+    <string name="null_name">-</string>
+    <string name="following_text">Following</string>
+    <string name="followers_text">Followers</string>
+    <string name="location_text">Location</string>
+    <string name="total_text">total</string>
+    <string name="username_text">username</string>
+    <string name="name_text">name_text</string>
+    <string name="change_languange">Change Language</string>
 </resources>

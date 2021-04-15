@@ -41,11 +41,18 @@ class MainViewModel : ViewModel() {
                         getUserDetail(username, context)
                     }
                 } catch (e: Exception) {
-                    Log.d("Exception", e.message.toString())
+                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                    e.printStackTrace()
                 }
             }
             override fun onFailure(statusCode: Int, headers: Array<Header>, responseBody: ByteArray, error: Throwable) {
-                Log.d("onFailure", error.message.toString())
+                val errorMessage = when (statusCode) {
+                    401 -> "$statusCode : Bad Request"
+                    403 -> "$statusCode : Forbidden"
+                    404 -> "$statusCode : Not Found"
+                    else -> "$statusCode : ${error?.message}"
+                }
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -67,11 +74,18 @@ class MainViewModel : ViewModel() {
                         getUserDetail(usernameLogin, context)
                     }
                 } catch (e: Exception) {
-                    Log.d("Exception", e.message.toString())
+                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                    e.printStackTrace()
                 }
             }
             override fun onFailure(statusCode: Int, headers: Array<Header>, responseBody: ByteArray, error: Throwable) {
-                Log.d("onFailure", error.message.toString())
+                val errorMessage = when (statusCode) {
+                    401 -> "$statusCode : Bad Request"
+                    403 -> "$statusCode : Forbidden"
+                    404 -> "$statusCode : Not Found"
+                    else -> "$statusCode : ${error?.message}"
+                }
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -85,8 +99,6 @@ class MainViewModel : ViewModel() {
         client.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseBody: ByteArray?) {
                 val result = responseBody?.let { String(it) }
-                Log.d(MainActivity.TAG, result)
-
                 try {
                     val user = JSONObject(result)
                     val userItems = UserItems()

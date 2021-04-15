@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:maxLines="2"
-                android:text="Nama Akun"
+                android:text="@string/name_text"
                 android:textColor="@color/black"
                 android:textSize="22sp"
                 android:textStyle="bold" />
@@ -42,7 +42,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="12dp"
                 android:maxLines="2"
-                android:text="Username"
+                android:text="@string/username_text"
                 android:textColor="@color/black"
                 android:textSize="17sp" />
 
@@ -60,15 +60,15 @@
 
                     <TextView
                         style="@style/judulDetail"
-                        android:text="Followers" />
+                        android:text="@string/following_text" />
 
                     <TextView
                         style="@style/judulDetail"
-                        android:text="Following" />
+                        android:text="@string/followers_text" />
 
                     <TextView
                         style="@style/judulDetail"
-                        android:text="Location" />
+                        android:text="@string/location_text" />
                 </TableRow>
                 <TableRow
                     android:layout_width="match_parent"
@@ -77,19 +77,20 @@
                     android:weightSum="3">
 
                     <TextView
-                        android:id="@+id/detail_followers"
-                        style="@style/value"
-                        android:text="jumlah" />
-
-                    <TextView
                         android:id="@+id/detail_following"
                         style="@style/value"
-                        android:text="jumlah" />
+                        android:text="@string/total_text"/>
+
+                    <TextView
+                        android:id="@+id/detail_followers"
+                        style="@style/value"
+                        android:text="@string/total_text" />
 
                     <TextView
                         android:id="@+id/detail_location"
                         style="@style/value"
-                        android:text="lokasi" />
+                        android:maxWidth="35dp"
+                        android:text="@string/location_text" />
                 </TableRow>
             </TableLayout>
 
@@ -101,7 +102,9 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="60dp"/>
+        android:layout_height="60dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"/>
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
