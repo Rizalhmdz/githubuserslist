@@ -1,20 +1,18 @@
 package com.example.githubuserslist
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuserslist.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var adapter: UserAdapter
     private lateinit var mainViewModel: MainViewModel
     private lateinit var binding: ActivityMainBinding
-
-    private var listDataUser: ArrayList<UserItems> = ArrayList()
 
     companion object {
         val TAG = MainActivity::class.java.simpleName
@@ -25,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        showLoading(false)
 
         adapter = UserAdapter()
         adapter.notifyDataSetChanged()
@@ -35,12 +34,14 @@ class MainActivity : AppCompatActivity() {
         mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
 
         binding.btnSearch.setOnClickListener {
-            val city = binding.editUsername.text.toString()
-
-            if (city.isEmpty()) return@setOnClickListener
+            val keyword = binding.editUsername.text.toString()
+            var url = "https://api.github.com/search/users?q=$keyword"
+            binding.status.text = getString(R.string.no_result)+keyword
+            status.visibility = View.GONE
+            if (keyword.isEmpty()) return@setOnClickListener
 
             showLoading(true)
-            mainViewModel.getDataGitSearch(city, this)
+            mainViewModel.getSearch(url, this)
         }
 
         mainViewModel.getUsers().observe(this, { userItems ->
@@ -48,14 +49,18 @@ class MainActivity : AppCompatActivity() {
                 adapter.setData(userItems)
                 showLoading(false)
             }
+            else{
+                showLoading(true)
+                binding.status.visibility = View.VISIBLE
+            }
         })
     }
 
     private fun showLoading(state: Boolean) {
         if (state) {
-            binding.progressBar.visibility = View.VISIBLE
+            binding.progressbarMain.visibility = View.VISIBLE
         } else {
-            binding.progressBar.visibility = View.GONE
+            binding.progressbarMain.visibility = View.GONE
         }
     }
 }

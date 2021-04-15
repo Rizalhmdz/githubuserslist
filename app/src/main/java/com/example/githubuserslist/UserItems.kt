@@ -1,11 +1,14 @@
 package com.example.githubuserslist
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
-class UserItems {
-    var name: String? = null
-    var username: String? = null
-    var profile_picture: String? = null
-    var followers: String? = null
-    var following: String? = null
-    var location: String?  = null
-}
+@Parcelize
+class UserItems(
+    var name: String? = "",
+    var username: String? = "",
+    var profile_picture: String? = "",
+    var followers: String? = "",
+    var following: String? = "",
+    var location: String?  = ""
+) : Parcelable

@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
-
     <LinearLayout
         android:id="@+id/inputText"
         android:layout_width="match_parent"
@@ -17,29 +16,36 @@
             android:id="@+id/edit_username"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.8"
+            android:layout_weight="0.95"
+            android:layout_marginLeft="10dp"
             android:hint="@string/search_viewholder" />
         <Button
             android:id="@+id/btn_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.2"
+            android:layout_weight="0.05"
+            android:layout_marginRight="10dp"
             android:text="@string/search" />
     </LinearLayout>
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:visibility="gone"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/inputText"
-        android:layout_marginTop="1dp" />
-
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+            android:layout_marginTop="1dp" />
+            <ProgressBar
+                android:id="@+id/progressbarMain"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/search_page"/>
+        </FrameLayout>
 </LinearLayout>

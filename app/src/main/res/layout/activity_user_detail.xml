@@ -1,39 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context=".UserDetail">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/detail_pp"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="50dp"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="15dp" />
 
             <TextView
-                android:id="@+id/nama_detail"
+                android:id="@+id/name_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:maxLines="2"
                 android:text="Nama Akun"
                 android:textColor="@color/black"
-                android:textSize="25sp"
+                android:textSize="22sp"
                 android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/username_detail"
                 android:layout_width="wrap_content"
@@ -43,11 +44,14 @@
                 android:maxLines="2"
                 android:text="Username"
                 android:textColor="@color/black"
-                android:textSize="25sp" />
+                android:textSize="17sp" />
 
             <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp">
 
                 <TableRow
                     android:layout_width="match_parent"
@@ -60,21 +64,20 @@
 
                     <TextView
                         style="@style/judulDetail"
-                        android:text="Following"/>
+                        android:text="Following" />
 
                     <TextView
                         style="@style/judulDetail"
-                        android:text="Lokasi"/>
+                        android:text="Location" />
                 </TableRow>
-
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:weightSum="3"
-                    android:layout_marginBottom="8dp">
+                    android:layout_marginBottom="8dp"
+                    android:weightSum="3">
 
                     <TextView
-                        android:id="@+id/detai_followers"
+                        android:id="@+id/detail_followers"
                         style="@style/value"
                         android:text="jumlah" />
 
@@ -82,8 +85,9 @@
                         android:id="@+id/detail_following"
                         style="@style/value"
                         android:text="jumlah" />
+
                     <TextView
-                        android:id="@+id/detail_lokasi"
+                        android:id="@+id/detail_location"
                         style="@style/value"
                         android:text="lokasi" />
                 </TableRow>
@@ -94,4 +98,12 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </FrameLayout>
-</ScrollView>
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"/>
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

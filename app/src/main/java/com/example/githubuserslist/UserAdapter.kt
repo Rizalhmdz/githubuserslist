@@ -8,13 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.githubuserslist.databinding.UserItemsBinding
 
-class UserAdapter()
-    : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
-
-//    interface OnItemClickCallback {
-//        fun onItemClick(data: UserItems)
-//    }
-
+class UserAdapter() : RecyclerView.Adapter<UserAdapter.UserViewHolder>(){
 
     private val mData = ArrayList<UserItems>()
     fun setData(items: ArrayList<UserItems>) {
@@ -29,42 +23,39 @@ class UserAdapter()
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
-        val data = holder.bind(mData[position])
+        holder.bind(mData[position])
+        val data = mData[position]
         holder.itemView.setOnClickListener {
             val dataUserIntent = UserItems(
-//                    data.username,
-//                    data.name,
-//                    data.avatar,
-//                    data.company,
-//                    data.location,
-//                    data.repository,
-//                    data.followers,
-//                    data.following
+
+                data.name,
+                data.username,
+                    data.profile_picture,
+                data.followers,
+                data.following,
+                data.location,
             )
             val mIntent = Intent(it.context, UserDetail::class.java)
-//            mIntent.putExtra(UserDetail.EXTRA_DETAIL, dataUserIntent)
+            mIntent.putExtra(UserDetail.EXTRA_USERNAME, dataUserIntent)
             it.context.startActivity(mIntent)
         }
-
-//        holder.itemView.setOnClickListener() {
-//            onItemClickCallback
-//                    .onItemClick(listUser[holder.adapterPosition])
-//        }
     }
 
     override fun getItemCount(): Int = mData.size
 
-        inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            private val binding = UserItemsBinding.bind(itemView)
-            fun bind(userItems: UserItems) {
-                with(itemView){
-                    binding.tvUsername.text = userItems.username
-                    binding.tvNama.text = userItems.name
-
-                    Glide.with(binding.imgPp)
+    inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val binding = UserItemsBinding.bind(itemView)
+        fun bind(userItems: UserItems) {
+            with(itemView){
+                binding.tvUsername.text = userItems.username
+                binding.tvNama.text = userItems.name
+                Glide.with(binding.imgPp)
                         .load(userItems.profile_picture)
                         .into(binding.imgPp)
-                }
+                binding.tvFollowers.text = userItems.followers
+                binding.tvFollowing.text = userItems.following
+                binding.tvLocation.text = userItems.location
             }
         }
+    }
 }
