@@ -5,35 +5,43 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuserslist.Adapter.UserAdapter
-import com.example.githubuserslist.databinding.FragmentFollowersBinding
+import com.example.githubuserslist.databinding.FragmentFollowingBinding
 import com.example.githubuserslist.model.MainViewModel
+import kotlinx.android.synthetic.main.fragment_followers.*
+import kotlinx.android.synthetic.main.fragment_following.*
 
 
 class FollowersFragment : Fragment() {
 
     private lateinit var adapter: UserAdapter
     private lateinit var followersViewModel: MainViewModel
-    private lateinit var binding: FragmentFollowersBinding
+
 
     companion object {
         const val EXTRA_USERNAME = "extra_username"
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_following, container, false)
+        return inflater.inflate(R.layout.fragment_followers, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentFollowersBinding.inflate(layoutInflater)
         adapter = UserAdapter()
         adapter.notifyDataSetChanged()
 
-        binding.rvFollowersFragment.layoutManager = LinearLayoutManager(activity)
-        binding.rvFollowersFragment.adapter = adapter
+        setList()
+
+    }
+
+    fun setList(){
+
+        rv_followers_fragment.layoutManager = LinearLayoutManager(activity)
+        rv_followers_fragment.adapter = adapter
         followersViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
             MainViewModel::class.java)
 
@@ -41,20 +49,24 @@ class FollowersFragment : Fragment() {
             this, ViewModelProvider.NewInstanceFactory()
         ).get(MainViewModel::class.java)
 
+        val dataUser = activity!!.intent.getParcelableExtra(EXTRA_USERNAME) as UserItems
+        val url = "https://api.github.com/users/"+dataUser.username.toString()+"/followers"
+        followersViewModel.getList(url, activity!!.applicationContext)
+        showLoading(true)
 
-//        setList()
+        followersViewModel.getUsers().observe(activity!!, Observer { listFollowers ->
+            if (listFollowers != null) {
+                adapter.setData(listFollowers)
+                showLoading(false)
+            }
+        })
     }
-
-//    private fun setList() {
-//
-//    }
 
     private fun showLoading(state: Boolean) {
         if (state) {
-            binding.progressbarFollowers.visibility = View.VISIBLE
+            progressbarFollowers.visibility = View.VISIBLE
         } else {
-            binding.progressbarFollowers.visibility = View.INVISIBLE
+            progressbarFollowers.visibility = View.INVISIBLE
         }
     }
-
 }

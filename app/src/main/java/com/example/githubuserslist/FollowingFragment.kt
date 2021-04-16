@@ -11,13 +11,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuserslist.Adapter.UserAdapter
 import com.example.githubuserslist.databinding.FragmentFollowingBinding
 import com.example.githubuserslist.model.MainViewModel
+import kotlinx.android.synthetic.main.fragment_following.*
 
 
 class FollowingFragment : Fragment() {
 
     private lateinit var adapter: UserAdapter
     private lateinit var followingViewModel: MainViewModel
-    private lateinit var binding: FragmentFollowingBinding
 
 
     companion object {
@@ -38,10 +38,9 @@ class FollowingFragment : Fragment() {
     }
 
     fun setList(){
-        binding = FragmentFollowingBinding.inflate(layoutInflater)
 
-        binding.rvFollowingFragment.layoutManager = LinearLayoutManager(activity)
-        binding.rvFollowingFragment.adapter = adapter
+        rv_following_fragment.layoutManager = LinearLayoutManager(activity)
+       rv_following_fragment.adapter = adapter
         followingViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
             MainViewModel::class.java)
 
@@ -63,12 +62,10 @@ class FollowingFragment : Fragment() {
     }
 
     private fun showLoading(state: Boolean) {
-        binding = FragmentFollowingBinding.inflate(layoutInflater)
-
         if (state) {
-            binding.progressbarFollowing.visibility = View.VISIBLE
+            progressbarFollowing.visibility = View.VISIBLE
         } else {
-            binding.progressbarFollowing.visibility = View.INVISIBLE
+            progressbarFollowing.visibility = View.INVISIBLE
         }
     }
 }
