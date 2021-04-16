@@ -1,4 +1,4 @@
-package com.example.githubuserslist
+package com.example.githubuserslist.Helper
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase

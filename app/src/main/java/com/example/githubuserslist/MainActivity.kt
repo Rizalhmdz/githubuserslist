@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
             val keyword = binding.editUsername.text.toString()
             var url = "https://api.github.com/search/users?q=$keyword"
             binding.status.text = getString(R.string.no_result)+keyword
-//            status.visibility = View.GONE
             if (keyword.isEmpty()) return@setOnClickListener
 
             showLoading(true)
@@ -78,7 +77,6 @@ class MainActivity : AppCompatActivity() {
             }
             else{
                 showLoading(true)
-                binding.status.visibility = View.VISIBLE
             }
         })
     }

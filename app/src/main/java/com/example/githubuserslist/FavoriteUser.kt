@@ -8,15 +8,11 @@ import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.example.githubuserslist.Adapter.FavoriteAdapter
 import com.example.githubuserslist.Helper.MappingHelper
 import com.example.githubuserslist.databinding.ActivityFavoriteUserBinding
-import com.example.githubuserslist.db.FavoriteUserHelper
 import com.example.githubuserslist.entity.FavoriteItems
-import com.example.githubuserslist.model.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

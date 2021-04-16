@@ -1,10 +1,9 @@
-package com.example.githubuserslist.db
+package com.example.githubuserslist.Helper
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import com.example.githubuserslist.DatabaseHelper
 import com.example.githubuserslist.db.DatabaseContract.FavoriteUserColumns.Companion.TABLE_NAME
 import com.example.githubuserslist.db.DatabaseContract.FavoriteUserColumns.Companion.USERNAME
 import com.example.githubuserslist.db.DatabaseContract.FavoriteUserColumns.Companion._ID
@@ -26,7 +25,6 @@ class FavoriteUserHelper(context: Context) {
     }
 
 
-
     init {
         dataBaseHelper = DatabaseHelper(context)
     }
@@ -42,40 +40,18 @@ class FavoriteUserHelper(context: Context) {
             database.close()
     }
 
-    fun queryAll(): Cursor {
+    fun queryByUsername(id: String): Cursor {
         return database.query(
-            DATABASE_TABLE,
-            null,
-            null,
-            null,
-            null,
-            null,
-            "$_ID ASC")
+                DATABASE_TABLE,
+                null,
+                "$USERNAME = ?",
+                arrayOf(id),
+                null,
+                null,
+                null,
+                null)
     }
 
-    fun queryById(id: String): Cursor {
-        return database.query(
-            DATABASE_TABLE,
-            null,
-            "$_ID = ?",
-            arrayOf(id),
-            null,
-            null,
-            null,
-            null)
-    }
-
-    fun queryByUsername(username: String): Cursor {
-        return database.query(
-            DATABASE_TABLE,
-            null,
-            "$USERNAME = ?",
-            arrayOf(username),
-            null,
-            null,
-            null,
-            null)
-    }
 
     fun insert(values: ContentValues?): Long {
         return database.insert(DATABASE_TABLE, null, values)
@@ -85,16 +61,7 @@ class FavoriteUserHelper(context: Context) {
         return database.update(DATABASE_TABLE, values, "$_ID = ?", arrayOf(id))
     }
 
-    fun deleteById(id: String): Int {
-        return database.delete(DATABASE_TABLE, "$_ID = '$id'", null)
+    fun deleteByUsername(id: String): Int {
+        return database.delete(DATABASE_TABLE, "$USERNAME = '$id'", null)
     }
-
-    fun deleteByUsername(username: String): Int {
-        return database.delete(DATABASE_TABLE, "$USERNAME = '$username'", null)
-    }
-
-//    fun querryByUsername(username: String){
-//        open()
-//        val querry = "SELECT"
-//    }
 }

@@ -18,4 +18,7 @@
     <string name="username_text">username</string>
     <string name="name_text">name_text</string>
     <string name="change_languange">Change Language</string>
+    <string name="Reminder">Reminder at 9.00 AM</string>
+    <string name="key_alaram">keyAlarm</string>
+    <string name="select_language">Select Language</string>
 </resources>
