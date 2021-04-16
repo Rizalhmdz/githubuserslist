@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.githubuserslist.FavoriteUser
 import com.example.githubuserslist.R
 import com.example.githubuserslist.UserDetail
 import com.example.githubuserslist.entity.FavoriteItems
@@ -83,6 +84,21 @@ class FavoriteAdapter(private val activity: Activity) : RecyclerView.Adapter<Fav
                 Glide.with(binding.imgPp)
                     .load(userItems.profile_picture)
                     .into(binding.imgPp)
+
+//                itemView.setOnClickListener(
+//                        CustomOnItemClickListener(
+//                                adapterPosition,
+//                                object : CustomOnItemClickListener.OnItemClickCallback {
+//                                    override fun onItemClicked(view: View, position: Int) {
+//                                        val mIntent = Intent(activity, UserDetail::class.java)
+//                                        mIntent.putExtra(UserDetail.EXTRA_USERNAME, dataUserIntent)
+////                                        intent.putExtra(UserDetail.EXTRA_POSITION, position)
+////                                        intent.putExtra(UserDetail.EXTRA_NOTE, fav)
+//                                        activity.startActivity(intent)
+//                                    }
+//                                }
+//                        )
+//                )
             }
         }
 

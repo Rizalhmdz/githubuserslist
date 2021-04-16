@@ -119,6 +119,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="35dp"
-            app:srcCompat="@android:drawable/ic_dialog_email" />
+            app:srcCompat="@drawable/star_filled_52px" />
     </FrameLayout>
 </LinearLayout>

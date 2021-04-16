@@ -5,4 +5,8 @@
         android:title="@string/change_languange"
         android:icon="@drawable/ic_baseline_language_24"
         app:showAsAction="always" />
+    <item android:id="@+id/favorite_page"
+        android:title="Favorite User"
+        android:icon="@drawable/star_filled_52px"
+        app:showAsAction="always" />
 </menu>

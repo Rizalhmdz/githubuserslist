@@ -15,15 +15,16 @@ internal class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATA
                 " (${DatabaseContract.FavoriteUserColumns._ID} INTEGER PRIMARY KEY AUTOINCREMENT," +
                 " ${DatabaseContract.FavoriteUserColumns.NAME} String NOT NULL," +
                 " ${DatabaseContract.FavoriteUserColumns.USERNAME} String NOT NULL," +
-                " ${DatabaseContract.FavoriteUserColumns.PROFILE_PICTURE} String NOT NULL,)" +
+                " ${DatabaseContract.FavoriteUserColumns.PROFILE_PICTURE} String NOT NULL," +
                 " ${DatabaseContract.FavoriteUserColumns.FOLLOWERS} String NOT NULL," +
                 " ${DatabaseContract.FavoriteUserColumns.FOLLOWING} String NOT NULL," +
-                " ${DatabaseContract.FavoriteUserColumns.LOCATION} String NOT NULL"
+                " ${DatabaseContract.FavoriteUserColumns.LOCATION} String NOT NULL)"
     }
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(SQL_CREATE_TABLE_NOTE)
     }
+
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
         onCreate(db)

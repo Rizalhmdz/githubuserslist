@@ -1,9 +1,18 @@
 package com.example.githubuserslist
 
+import android.annotation.SuppressLint
+import android.content.ContentValues
+import android.content.Intent
+import android.graphics.drawable.Drawable
+import android.media.tv.TvContract.Channels.CONTENT_URI
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.contentValuesOf
 import androidx.lifecycle.ViewModelProvider
@@ -35,6 +44,11 @@ class UserDetail : AppCompatActivity(), View.OnClickListener {
     private lateinit var mainViewModel: MainViewModel
     private lateinit var adapter: UserAdapter
     private lateinit var adapterF: FavoriteAdapter
+
+//    private var isFavorite = false
+//    private lateinit var gitHelper: FavoriteHelper
+//    private var favorites: Favorite? = null
+//    private lateinit var imageAvatar: String
 
 
     private var name: String? = ""
@@ -71,13 +85,24 @@ class UserDetail : AppCompatActivity(), View.OnClickListener {
 
         adapter = UserAdapter()
         adapter.notifyDataSetChanged()
-        mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
-            MainViewModel::class.java)
+        mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
+        favoriteUserHelper = FavoriteUserHelper.getInstance(applicationContext)
+        favoriteUserHelper.open()
+
+    favoriteItems = intent.getParcelableExtra(EXTRA_USERNAME) as FavoriteItems
+    if (favoriteItems != null) {
+        setDataObject()
+        isFavorite = true
+        val Mark: Int = R.drawable.star_filled_52px
+        binding.fabFavorite.setImageResource(Mark)
+    } else {
+        setData()
+    }
 
         binding.fabFavorite.setOnClickListener(this)
 
         viewPagerConfig()
-        setData()
+//        setData()
     }
 
     private fun setActionBarTitle(title: String) {
@@ -97,31 +122,13 @@ class UserDetail : AppCompatActivity(), View.OnClickListener {
         binding.detailFollowing.text = dataUser.following
         binding.detailFollowers.text = dataUser.followers
 
-//            GlobalScope.launch(Dispatchers.Main) {
-//                val favoriteHelper = FavoriteUserHelper.getInstance(applicationContext)
-//                favoriteHelper.open()
-//                val deferredFavorite = async(Dispatchers.IO) {
-//                    val cursor = dataUser.username?.let { favoriteHelper.queryByUsername(it) }
-//                    MappingHelper.mapCursorToArrayList(cursor)
-//                }
-//                favoriteHelper.close()
-////                showLoading(false)
-//                val favorites = deferredFavorite.await()
-//                if (favorites.size > 0) {
-//
-////                    adapterF.listFavoriteUser = favorites
-//                } else {
-////                    adapterF.listFavoriteUser = ArrayList()
-//                    Toast.makeText(this@UserDetail, "No data", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-
         this.name = dataUser.name
         this.username = dataUser.username
         this.profile_picture = dataUser.profile_picture
         this.followers = dataUser.followers
         this.following = dataUser.following
         this.location = dataUser.location
+
         dataUser.username?.let { setActionBarTitle(it) }
     }
 
@@ -138,43 +145,211 @@ class UserDetail : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(view: View) {
         if (view.id == R.id.fab_favorite) {
-            if (isFavorite) {
+            val Mark: Int = R.drawable.star_52px
+            val unMark: Int = R.drawable.star_filled_52px
 
-                val result = this.username?.let { favoriteUserHelper.deleteByUsername(it).toLong() }
-                if (result != null) {
-                    if (result > 0) {
-                        Toast.makeText(this@UserDetail, "deleted from Favorite", Toast.LENGTH_SHORT).show()
-//                        finish()
-                    } else {
-                        Toast.makeText(this@UserDetail, "Failed delete from Favorite", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-            } else {
-                favoriteItems?.username = this.username
-                favoriteItems?.name = this.name
-                favoriteItems?.profile_picture = this.profile_picture
-                favoriteItems?.followers = this.followers
-                favoriteItems?.following = this.following
-                favoriteItems?.location = this.location
-
-                val values = contentValuesOf(
-                    DatabaseContract.FavoriteUserColumns.USERNAME to this.username,
-                    DatabaseContract.FavoriteUserColumns.NAME to this.name,
-                    DatabaseContract.FavoriteUserColumns.PROFILE_PICTURE to this.profile_picture,
-                    DatabaseContract.FavoriteUserColumns.FOLLOWING to this.following,
-                    DatabaseContract.FavoriteUserColumns.FOLLOWERS to this.followers,
-                    DatabaseContract.FavoriteUserColumns.LOCATION to this.location
-                )
-                val result = favoriteUserHelper.insert(values)
-                if (result > 0) {
-                    favoriteItems?.id = result.toInt()
-//                    setResult(RESULT_ADD, intent)
-//                    finish()
+                if (isFavorite) {
+                    favoriteUserHelper.deleteById(favoriteItems?.username.toString())
+                    Toast.makeText(this, "deleted from Favorite", Toast.LENGTH_SHORT).show()
+                    binding.fabFavorite.setImageResource(unMark)
+                    isFavorite = false
                 } else {
-                    Toast.makeText(this@UserDetail, "Failed add to Favorite", Toast.LENGTH_SHORT).show()
-                }
+
+                    val values = contentValuesOf(
+                        DatabaseContract.FavoriteUserColumns.USERNAME to this.username,
+                        DatabaseContract.FavoriteUserColumns.NAME to this.name,
+                        DatabaseContract.FavoriteUserColumns.PROFILE_PICTURE to this.profile_picture,
+                        DatabaseContract.FavoriteUserColumns.FOLLOWING to this.following,
+                        DatabaseContract.FavoriteUserColumns.FOLLOWERS to this.followers,
+                        DatabaseContract.FavoriteUserColumns.LOCATION to this.location
+                    )
+
+                    isFavorite = true
+                    contentResolver.insert(CONTENT_URI, values)
+                    Toast.makeText(this, "Added to Favorite", Toast.LENGTH_SHORT)
+                        .show()
+                    binding.fabFavorite.setImageResource(Mark)
+//                }
             }
         }
     }
+
+    private fun setDataObject() {
+        favoriteItems?.username = this.username
+        favoriteItems?.name = this.name
+        favoriteItems?.profile_picture = this.profile_picture
+        favoriteItems?.followers = this.followers
+        favoriteItems?.following = this.following
+        favoriteItems?.location = this.location
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        favoriteUserHelper.close()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.setting_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+//            R.id.action_change_settings -> {
+//                val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+//                startActivity(mIntent)
+//            }
+//            R.id.action_change_notification -> {
+//                val mIntent = Intent(this, NotificationSettings::class.java)
+//                startActivity(mIntent)
+//            }
+//            R.id.action_favorite -> {
+//                val mIntent = Intent(this, UserFavorite::class.java)
+//                startActivity(mIntent)
+//            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }
+//
+//companion object {
+//    const val EXTRA_DATA = "extra_data"
+//    const val EXTRA_FAV = "extra_data"
+//    const val EXTRA_NOTE = "extra_note"
+//    const val EXTRA_POSITION = "extra_position"
+//}
+
+//private var isFavorite = false
+//private lateinit var gitHelper: FavoriteHelper
+//private var favorites: Favorite? = null
+//private lateinit var imageAvatar: String
+//
+//@SuppressLint("SetTextI18n")
+//override fun onCreate(savedInstanceState: Bundle?) {
+//    super.onCreate(savedInstanceState)
+//    setContentView(R.layout.user_detail)
+//
+//    gitHelper = FavoriteHelper.getInstance(applicationContext)
+//    gitHelper.open()
+//
+//    favorites = intent.getParcelableExtra(EXTRA_NOTE)
+//    if (favorites != null) {
+//        setDataObject()
+//        isFavorite = true
+//        val checked: Int = R.drawable.ic_favorite
+//        btn_favorite.setImageResource(checked)
+//    } else {
+//        setData()
+//    }
+//
+//    viewPagerConfig()
+//    btn_favorite.setOnClickListener(this)
+//}
+//
+//private fun viewPagerConfig() {
+//    val viewPagerDetailAdapter = SectionsPagerAdapter(this, supportFragmentManager)
+//    view_pager.adapter = viewPagerDetailAdapter
+//    tabs.setupWithViewPager(view_pager)
+//
+//    supportActionBar?.elevation = 0f
+//}
+//
+//private fun setActionBarTitle(title: String) {
+//    if (supportActionBar != null) {
+//        this.title = title
+//    }
+//}
+//
+//@SuppressLint("SetTextI18n", "StringFormatInvalid")
+//private fun setData() {
+//    val dataUser = intent.getParcelableExtra(EXTRA_DATA) as UserData
+//    dataUser.name?.let { setActionBarTitle(it) }
+//    detail_name.text = dataUser.name
+//    detail_username.text = dataUser.username
+//    detail_company.text = getString(R.string.company, dataUser.company)
+//    detail_location.text = getString(R.string.location, dataUser.location)
+//    detail_repository.text = getString(R.string.repository, dataUser.repository)
+//    Glide.with(this)
+//            .load(dataUser.avatar)
+//            .into(detail_avatar)
+//    imageAvatar = dataUser.avatar.toString()
+//}
+//
+//@SuppressLint("SetTextI18n")
+//private fun setDataObject() {
+//    val favoriteUser = intent.getParcelableExtra(EXTRA_NOTE) as Favorite
+//    favoriteUser.name?.let { setActionBarTitle(it) }
+//    detail_name.text = favoriteUser.name
+//    detail_username.text = favoriteUser.username
+//    detail_company.text = favoriteUser.company
+//    detail_location.text = favoriteUser.location
+//    detail_repository.text = favoriteUser.repository
+//    Glide.with(this)
+//            .load(favoriteUser.avatar)
+//            .into(detail_avatar)
+//    imageAvatar = favoriteUser.avatar.toString()
+//}
+//
+//override fun onClick(view: View) {
+//    val checked: Int = R.drawable.ic_favorite
+//    val unChecked: Int = R.drawable.ic_favorite_border
+//    if (view.id == R.id.btn_favorite) {
+//        if (isFavorite) {
+//            gitHelper.deleteById(favorites?.username.toString())
+//            Toast.makeText(this, getString(R.string.delete_favorite), Toast.LENGTH_SHORT).show()
+//            btn_favorite.setImageResource(unChecked)
+//            isFavorite = false
+//        } else {
+//            val dataUsername = detail_username.text.toString()
+//            val dataName = detail_name.text.toString()
+//            val dataAvatar = imageAvatar
+//            val datacompany = detail_company.text.toString()
+//            val dataLocation = detail_location.text.toString()
+//            val dataRepository = detail_repository.text.toString()
+//            val dataFavorite = "1"
+//
+//            val values = ContentValues()
+//            values.put(USERNAME, dataUsername)
+//            values.put(NAME, dataName)
+//            values.put(AVATAR, dataAvatar)
+//            values.put(COMPANY, datacompany)
+//            values.put(LOCATION, dataLocation)
+//            values.put(REPOSITORY, dataRepository)
+//            values.put(FAVORITE, dataFavorite)
+//
+//            isFavorite = true
+//            contentResolver.insert(CONTENT_URI, values)
+//            Toast.makeText(this, getString(R.string.add_favorite), Toast.LENGTH_SHORT).show()
+//            btn_favorite.setImageResource(checked)
+//        }
+//    }
+//}
+//
+//override fun onDestroy() {
+//    super.onDestroy()
+//    gitHelper.close()
+//}
+//
+//override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//    menuInflater.inflate(R.menu.main_menu, menu)
+//    return super.onCreateOptionsMenu(menu)
+//}
+//
+//override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//    when (item.itemId) {
+//        R.id.action_change_settings -> {
+//            val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+//            startActivity(mIntent)
+//        }
+//        R.id.action_change_notification -> {
+//            val mIntent = Intent(this, NotificationSettings::class.java)
+//            startActivity(mIntent)
+//        }
+//        R.id.action_favorite -> {
+//            val mIntent = Intent(this, UserFavorite::class.java)
+//            startActivity(mIntent)
+//        }
+//    }
+//    return super.onOptionsItemSelected(item)
+//}
+//}

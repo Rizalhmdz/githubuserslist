@@ -63,6 +63,10 @@ class MainActivity : AppCompatActivity() {
             val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
             startActivity(mIntent)
         }
+        if(item.itemId == R.id.favorite_page){
+            val mIntent = Intent(this, FavoriteUser::class.java)
+            startActivity(mIntent)
+        }
         return super.onOptionsItemSelected(item)
     }
 
