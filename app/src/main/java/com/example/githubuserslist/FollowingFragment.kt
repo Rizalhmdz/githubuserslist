@@ -8,13 +8,17 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_following.*
+import com.example.githubuserslist.Adapter.UserAdapter
+import com.example.githubuserslist.databinding.FragmentFollowingBinding
+import com.example.githubuserslist.model.MainViewModel
 
 
 class FollowingFragment : Fragment() {
 
     private lateinit var adapter: UserAdapter
     private lateinit var followingViewModel: MainViewModel
+    private lateinit var binding: FragmentFollowingBinding
+
 
     companion object {
         const val EXTRA_USERNAME = "extra_username"
@@ -34,9 +38,12 @@ class FollowingFragment : Fragment() {
     }
 
     fun setList(){
-        rv_following_fragment.layoutManager = LinearLayoutManager(activity)
-        rv_following_fragment.adapter = adapter
-        followingViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
+        binding = FragmentFollowingBinding.inflate(layoutInflater)
+
+        binding.rvFollowingFragment.layoutManager = LinearLayoutManager(activity)
+        binding.rvFollowingFragment.adapter = adapter
+        followingViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
+            MainViewModel::class.java)
 
         followingViewModel = ViewModelProvider(
                 this, ViewModelProvider.NewInstanceFactory()
@@ -56,10 +63,12 @@ class FollowingFragment : Fragment() {
     }
 
     private fun showLoading(state: Boolean) {
+        binding = FragmentFollowingBinding.inflate(layoutInflater)
+
         if (state) {
-            progressbarFollowing.visibility = View.VISIBLE
+            binding.progressbarFollowing.visibility = View.VISIBLE
         } else {
-            progressbarFollowing.visibility = View.INVISIBLE
+            binding.progressbarFollowing.visibility = View.INVISIBLE
         }
     }
 }

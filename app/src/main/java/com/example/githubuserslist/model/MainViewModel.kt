@@ -1,4 +1,4 @@
-package com.example.githubuserslist
+package com.example.githubuserslist.model
 
 import android.content.Context
 import android.util.Log
@@ -6,6 +6,9 @@ import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.githubuserslist.MainActivity
+import com.example.githubuserslist.UserDetail
+import com.example.githubuserslist.UserItems
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header

@@ -12,7 +12,7 @@
         android:layout_gravity="center" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_follower_fragment"
+        android:id="@+id/rv_followers_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/user_items"/>

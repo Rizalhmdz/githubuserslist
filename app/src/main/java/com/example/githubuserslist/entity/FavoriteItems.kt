@@ -5,7 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class FavoriteItems(
-    var Id: Int,
+    var id: Int,
     var name: String? = "",
     var username: String? = "",
     var profile_picture: String? = "",

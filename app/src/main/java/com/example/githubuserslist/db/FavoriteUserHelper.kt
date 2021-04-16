@@ -6,6 +6,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import com.example.githubuserslist.DatabaseHelper
 import com.example.githubuserslist.db.DatabaseContract.FavoriteUserColumns.Companion.TABLE_NAME
+import com.example.githubuserslist.db.DatabaseContract.FavoriteUserColumns.Companion.USERNAME
 import com.example.githubuserslist.db.DatabaseContract.FavoriteUserColumns.Companion._ID
 import java.sql.SQLException
 
@@ -62,6 +63,18 @@ class FavoriteUserHelper(context: Context) {
             null)
     }
 
+    fun queryByUsername(username: String): Cursor {
+        return database.query(
+            DATABASE_TABLE,
+            null,
+            "$USERNAME = ?",
+            arrayOf(username),
+            null,
+            null,
+            null,
+            null)
+    }
+
     fun insert(values: ContentValues?): Long {
         return database.insert(DATABASE_TABLE, null, values)
     }
@@ -73,4 +86,13 @@ class FavoriteUserHelper(context: Context) {
     fun deleteById(id: String): Int {
         return database.delete(DATABASE_TABLE, "$_ID = '$id'", null)
     }
+
+    fun deleteByUsername(username: String): Int {
+        return database.delete(DATABASE_TABLE, "${DatabaseContract.FavoriteUserColumns.USERNAME} = '$username'", null)
+    }
+
+//    fun querryByUsername(username: String){
+//        open()
+//        val querry = "SELECT"
+//    }
 }

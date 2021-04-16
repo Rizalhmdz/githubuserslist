@@ -9,8 +9,9 @@ import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.githubuserslist.Adapter.UserAdapter
 import com.example.githubuserslist.databinding.ActivityMainBinding
-import kotlinx.android.synthetic.main.activity_main.*
+import com.example.githubuserslist.model.MainViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,13 +36,14 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
 
-        mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
+        mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
+            MainViewModel::class.java)
 
         binding.btnSearch.setOnClickListener {
             val keyword = binding.editUsername.text.toString()
             var url = "https://api.github.com/search/users?q=$keyword"
             binding.status.text = getString(R.string.no_result)+keyword
-            status.visibility = View.GONE
+//            status.visibility = View.GONE
             if (keyword.isEmpty()) return@setOnClickListener
 
             showLoading(true)
