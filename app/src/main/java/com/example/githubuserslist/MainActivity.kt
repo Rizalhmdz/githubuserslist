@@ -7,6 +7,7 @@ import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuserslist.Adapter.UserAdapter
@@ -42,13 +43,12 @@ class MainActivity : AppCompatActivity() {
         binding.btnSearch.setOnClickListener {
             val keyword = binding.editUsername.text.toString()
             var url = "https://api.github.com/search/users?q=$keyword"
-            binding.status.text = getString(R.string.no_result)+keyword
             if (keyword.isEmpty()) return@setOnClickListener
 
             showLoading(true)
+            binding.status.text = "Searcing for \"$keyword\""
             mainViewModel.getSearch(url, this)
         }
-
         setList()
     }
 
@@ -75,10 +75,8 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.getUsers().observe(this, { userItems ->
             if (userItems != null) {
                 adapter.setData(userItems)
+                binding.status.text = "Result"
                 showLoading(false)
-            }
-            else{
-                showLoading(true)
             }
         })
     }

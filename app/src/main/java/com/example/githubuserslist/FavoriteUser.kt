@@ -42,9 +42,7 @@ class FavoriteUser : AppCompatActivity() {
         favoriteUserHelper = FavoriteUserHelper.getInstance(applicationContext)
         favoriteUserHelper.open()
 
-//        showLoading(false)
-
-//        adapter.notifyDataSetChanged()
+        setActionBarTitle()
 
         binding.recyclerViewFavorite.layoutManager = LinearLayoutManager(this)
         binding.recyclerViewFavorite.setHasFixedSize(true)
@@ -93,7 +91,6 @@ class FavoriteUser : AppCompatActivity() {
     }
 
     private fun loadNotesAsync() {
-//        favoriteUserHelper.open()
         GlobalScope.launch(Dispatchers.Main) {
             showLoading(true)
             val defFav = async(Dispatchers.IO) {
@@ -109,12 +106,16 @@ class FavoriteUser : AppCompatActivity() {
                 showSnackbarMessage("List Not Found")
             }
         }
-//        favoriteUserHelper.close()
     }
-//    override fun onDestroy() {
-//        super.onDestroy()
-//        favoriteUserHelper.close()
-//    }
+    override fun onResume() {
+        super.onResume()
+        loadNotesAsync()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        favoriteUserHelper.close()
+    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -123,5 +124,10 @@ class FavoriteUser : AppCompatActivity() {
 
     private fun showSnackbarMessage(message: String) {
         Snackbar.make(binding.recyclerViewFavorite, message, Snackbar.LENGTH_SHORT).show()
+    }
+    private fun setActionBarTitle() {
+        if (supportActionBar != null) {
+            supportActionBar?.title = "Favorite Users"
+        }
     }
 }

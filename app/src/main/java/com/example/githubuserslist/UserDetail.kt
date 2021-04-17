@@ -20,6 +20,7 @@ import com.example.githubuserslist.databinding.ActivityUserDetailBinding
 import com.example.githubuserslist.db.DatabaseContract
 import com.example.githubuserslist.Helper.FavoriteUserHelper
 import com.example.githubuserslist.Helper.MappingHelper
+import com.example.githubuserslist.entity.FavoriteItems
 import com.example.githubuserslist.entity.UserItems
 import com.example.githubuserslist.model.MainViewModel
 import com.google.android.material.tabs.TabLayout
@@ -32,6 +33,7 @@ import kotlinx.coroutines.launch
 class UserDetail : AppCompatActivity(), View.OnClickListener {
 
     companion object {
+        val EXTRA_USERNAME_FAV = "extra_username"
         val TAG = UserDetail::class.java.simpleName
         const val EXTRA_USERNAME = "extra_username"
         @StringRes
@@ -96,7 +98,7 @@ class UserDetail : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setData() {
-        val dataUser = intent.getParcelableExtra(EXTRA_USERNAME) as UserItems
+        var dataUser = intent.getParcelableExtra(EXTRA_USERNAME) as UserItems
         Glide.with(this)
             .load(dataUser.profile_picture)
             .into(binding.detailPp)

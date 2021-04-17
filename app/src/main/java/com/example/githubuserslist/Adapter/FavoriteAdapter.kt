@@ -12,6 +12,7 @@ import com.example.githubuserslist.FavoriteUser
 import com.example.githubuserslist.R
 import com.example.githubuserslist.UserDetail
 import com.example.githubuserslist.entity.FavoriteItems
+import com.example.githubuserslist.entity.UserItems
 import java.util.*
 
 
@@ -58,8 +59,7 @@ class FavoriteAdapter(private val activity: Activity) : RecyclerView.Adapter<Fav
         holder.bind(listFavoriteUser[position])
         val data = listFavoriteUser[position]
         holder.itemView.setOnClickListener {
-            val dataUserIntent = FavoriteItems(
-                data.id,
+            val dataUserIntent = UserItems(
                 data.name,
                 data.username,
                 data.profile_picture,
