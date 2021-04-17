@@ -58,13 +58,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.language) {
-            val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
-            startActivity(mIntent)
-        }
-        if(item.itemId == R.id.favorite_page){
-            val mIntent = Intent(this, FavoriteUser::class.java)
-            startActivity(mIntent)
+        when (item.itemId) {
+            R.id.setting_page -> {
+                val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+                startActivity(mIntent)
+            }
+            R.id.favorite_page -> {
+                val mIntent = Intent(this, FavoriteUser::class.java)
+                startActivity(mIntent)
+            }
         }
         return super.onOptionsItemSelected(item)
     }

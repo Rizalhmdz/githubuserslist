@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.githubuserslist.MainActivity
 import com.example.githubuserslist.UserDetail
-import com.example.githubuserslist.UserItems
+import com.example.githubuserslist.entity.UserItems
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header

@@ -8,11 +8,14 @@ import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuserslist.Adapter.FavoriteAdapter
+import com.example.githubuserslist.Helper.FavoriteUserHelper
 import com.example.githubuserslist.Helper.MappingHelper
 import com.example.githubuserslist.databinding.ActivityFavoriteUserBinding
 import com.example.githubuserslist.entity.FavoriteItems
+import com.example.githubuserslist.model.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -22,20 +25,13 @@ import kotlinx.coroutines.launch
 class FavoriteUser : AppCompatActivity() {
 
 
-//    private lateinit var adapter: NoteAdapter
-//
-//    private lateinit var binding: ActivityMainBinding
-//
-//    companion object {
-//        private const val EXTRA_STATE = "EXTRA_STATE"
-//    }
 
     private lateinit var adapter: FavoriteAdapter
-//    private lateinit var favoriteViewModel: MainViewModel
+    private lateinit var favoriteViewModel: MainViewModel
     private lateinit var binding: ActivityFavoriteUserBinding
+    private lateinit var favoriteUserHelper: FavoriteUserHelper
 
     companion object {
-        val TAG = FavoriteUser::class.java.simpleName
         private const val EXTRA_STATE = "EXTRA_STATE"
     }
 
@@ -43,48 +39,30 @@ class FavoriteUser : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityFavoriteUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        favoriteUserHelper = FavoriteUserHelper.getInstance(applicationContext)
+        favoriteUserHelper.open()
 
-        showLoading(false)
+//        showLoading(false)
 
-        adapter = FavoriteAdapter(this)
-        adapter.notifyDataSetChanged()
+//        adapter.notifyDataSetChanged()
 
         binding.recyclerViewFavorite.layoutManager = LinearLayoutManager(this)
         binding.recyclerViewFavorite.setHasFixedSize(true)
+
+        adapter = FavoriteAdapter(this)
         binding.recyclerViewFavorite.adapter = adapter
 
-//        favoriteViewModel = ViewModelProvider(
-//            this,
-//            ViewModelProvider.NewInstanceFactory()
-//        ).get(MainViewModel::class.java)
-//
-//        setList()
-//
-//        override fun onCreate(savedInstanceState: Bundle?) {
-//            super.onCreate(savedInstanceState)
-//            binding = ActivityMainBinding.inflate(layoutInflater)
-//            setContentView(binding.root)
-//
-//            supportActionBar?.title = "Notes"
+        favoriteViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
+                MainViewModel::class.java)
 
-//            binding.rvNotes.layoutManager = LinearLayoutManager(this)
-//            binding.rvNotes.setHasFixedSize(true)
-            adapter = FavoriteAdapter(this)
-            binding.recyclerViewFavorite.adapter = adapter
-
-//            binding.fabAdd.setOnClickListener {
-//                val intent = Intent(this@MainActivity, NoteAddUpdateActivity::class.java)
-//                startActivityForResult(intent, NoteAddUpdateActivity.REQUEST_ADD)
-//            }
-
-            if (savedInstanceState == null) {
-                loadNotesAsync()
-            } else {
-                val list = savedInstanceState.getParcelableArrayList<FavoriteItems>(EXTRA_STATE)
-                if (list != null) {
-                    adapter.listFavoriteUser = list
-                }
+        if (savedInstanceState == null) {
+            loadNotesAsync()
+        } else {
+            val list = savedInstanceState.getParcelableArrayList<FavoriteItems>(EXTRA_STATE)
+            if (list != null) {
+                adapter.listFavoriteUser = list
             }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -93,9 +71,15 @@ class FavoriteUser : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.language) {
-            val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
-            startActivity(mIntent)
+        when (item.itemId) {
+            R.id.setting_page -> {
+                val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+                startActivity(mIntent)
+            }
+            R.id.favorite_page -> {
+//                val mIntent = Intent(this, FavoriteUser::class.java)
+//                startActivity(mIntent)
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -108,25 +92,29 @@ class FavoriteUser : AppCompatActivity() {
         }
     }
 
-
     private fun loadNotesAsync() {
+//        favoriteUserHelper.open()
         GlobalScope.launch(Dispatchers.Main) {
             showLoading(true)
-            val deferredNotes = async(Dispatchers.IO) {
-                val cursor = contentResolver?.query(CONTENT_URI, null, null, null, null)
+            val defFav = async(Dispatchers.IO) {
+                val cursor = favoriteUserHelper.queryAll()
                 MappingHelper.mapCursorToArrayList(cursor)
             }
-            val favData = deferredNotes.await()
+            val favoriteData = defFav.await()
             showLoading(false)
-            if (favData.size > 0) {
-                adapter.listFavoriteUser = favData
+            if (favoriteData.size > 0) {
+                adapter.listFavoriteUser = favoriteData
             } else {
                 adapter.listFavoriteUser = ArrayList()
-                showSnackbarMessage("Not Found")
+                showSnackbarMessage("List Not Found")
             }
         }
-
+//        favoriteUserHelper.close()
     }
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        favoriteUserHelper.close()
+//    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)

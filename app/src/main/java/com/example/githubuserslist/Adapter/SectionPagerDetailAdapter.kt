@@ -1,8 +1,10 @@
-package com.example.githubuserslist
+package com.example.githubuserslist.Adapter
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.githubuserslist.FollowersFragment
+import com.example.githubuserslist.FollowingFragment
 
 class SectionPagerDetailAdapter(activity: AppCompatActivity) : FragmentStateAdapter(activity) {
     override fun createFragment(position: Int): Fragment {

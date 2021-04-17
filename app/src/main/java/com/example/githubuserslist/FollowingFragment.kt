@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuserslist.Adapter.UserAdapter
-import com.example.githubuserslist.databinding.FragmentFollowingBinding
+import com.example.githubuserslist.entity.UserItems
 import com.example.githubuserslist.model.MainViewModel
 import kotlinx.android.synthetic.main.fragment_following.*
 

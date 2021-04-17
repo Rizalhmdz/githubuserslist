@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.githubuserslist.R
 import com.example.githubuserslist.UserDetail
-import com.example.githubuserslist.UserItems
+import com.example.githubuserslist.entity.UserItems
 import com.example.githubuserslist.databinding.UserItemsBinding
 
 class UserAdapter() : RecyclerView.Adapter<UserAdapter.UserViewHolder>(){

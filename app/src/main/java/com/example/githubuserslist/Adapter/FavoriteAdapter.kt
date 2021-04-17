@@ -17,21 +17,21 @@ import java.util.*
 
 class FavoriteAdapter(private val activity: Activity) : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
     var listFavoriteUser = ArrayList<FavoriteItems>()
-//            set(listFavoriteUser) {
-//            if (listFavoriteUser.size > 0) {
-//                this.listFavoriteUser.clear()
-//            }
-//            this.listFavoriteUser.addAll(listFavoriteUser)
-//
-//            notifyDataSetChanged()
-//        }
-    fun setData(items: ArrayList<FavoriteItems>) {
-        if (listFavoriteUser.size > 0) {
-            this.listFavoriteUser.clear()
+            set(listFavoriteUser) {
+            if (listFavoriteUser.size > 0) {
+                this.listFavoriteUser.clear()
+            }
+            this.listFavoriteUser.addAll(listFavoriteUser)
+
+            notifyDataSetChanged()
         }
-        listFavoriteUser.addAll(items)
-        notifyDataSetChanged()
-    }
+//    fun setData(items: ArrayList<FavoriteItems>) {
+//        if (listFavoriteUser.size > 0) {
+//            this.listFavoriteUser.clear()
+//        }
+//        listFavoriteUser.addAll(items)
+//        notifyDataSetChanged()
+//    }
 
     fun addItem(favorite: FavoriteItems) {
         this.listFavoriteUser.add(favorite)
@@ -76,13 +76,13 @@ class FavoriteAdapter(private val activity: Activity) : RecyclerView.Adapter<Fav
 
     inner class FavoriteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = UserItemsBinding.bind(itemView)
-        fun bind(userItems: FavoriteItems) {
+        fun bind(favoriteItems: FavoriteItems) {
             with(itemView){
-            binding.tvUsername.text = userItems.username
-                if(userItems.name == "null") binding.tvNama.text = resources.getString(R.string.null_name)
-                else binding.tvNama.text = userItems.name
+            binding.tvUsername.text = favoriteItems.username
+                if(favoriteItems.name == "null") binding.tvNama.text = resources.getString(R.string.null_name)
+                else binding.tvNama.text = favoriteItems.name
                 Glide.with(binding.imgPp)
-                    .load(userItems.profile_picture)
+                    .load(favoriteItems.profile_picture)
                     .into(binding.imgPp)
 
 //                itemView.setOnClickListener(

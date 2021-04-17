@@ -1,8 +1,9 @@
 package com.example.githubuserslist
 
-import android.media.tv.TvContract.Channels.CONTENT_URI
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -13,12 +14,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.githubuserslist.Adapter.FavoriteAdapter
+import com.example.githubuserslist.Adapter.SectionPagerDetailAdapter
 import com.example.githubuserslist.Adapter.UserAdapter
 import com.example.githubuserslist.databinding.ActivityUserDetailBinding
 import com.example.githubuserslist.db.DatabaseContract
 import com.example.githubuserslist.Helper.FavoriteUserHelper
 import com.example.githubuserslist.Helper.MappingHelper
-import com.example.githubuserslist.entity.FavoriteItems
+import com.example.githubuserslist.entity.UserItems
 import com.example.githubuserslist.model.MainViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -43,7 +45,7 @@ class UserDetail : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityUserDetailBinding
     private lateinit var mainViewModel: MainViewModel
     private lateinit var adapter: UserAdapter
-    private lateinit var adapterF: FavoriteAdapter
+//    private lateinit var adapterF: FavoriteAdapter
 
     private var isFavorite = false
 
@@ -172,25 +174,21 @@ class UserDetail : AppCompatActivity(), View.OnClickListener {
         favoriteUserHelper.close()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.setting_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-//            R.id.action_change_settings -> {
-//                val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
-//                startActivity(mIntent)
-//            }
-//            R.id.action_change_notification -> {
-//                val mIntent = Intent(this, NotificationSettings::class.java)
-//                startActivity(mIntent)
-//            }
-//            R.id.action_favorite -> {
-//                val mIntent = Intent(this, UserFavorite::class.java)
-//                startActivity(mIntent)
-//            }
+            R.id.setting_page -> {
+                val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+                startActivity(mIntent)
+            }
+            R.id.favorite_page -> {
+                val mIntent = Intent(this, FavoriteUser::class.java)
+                startActivity(mIntent)
+            }
         }
         return super.onOptionsItemSelected(item)
     }

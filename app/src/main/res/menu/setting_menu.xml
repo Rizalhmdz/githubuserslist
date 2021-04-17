@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/language"
-        android:title="@string/change_languange"
-        android:icon="@drawable/ic_baseline_language_24"
-        app:showAsAction="always" />
     <item android:id="@+id/favorite_page"
         android:title="Favorite User"
-        android:icon="@drawable/star_filled_52px"
+        android:icon="@drawable/star_24px"
+
+        app:showAsAction="always" />
+    <item android:id="@+id/setting_page"
+        android:title="@string/change_languange"
+        android:icon="@drawable/ic_baseline_settings_24"
         app:showAsAction="always" />
 </menu>

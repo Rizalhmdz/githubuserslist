@@ -40,6 +40,18 @@ class FavoriteUserHelper(context: Context) {
             database.close()
     }
 
+    fun queryAll(): Cursor {
+        return database.query(
+                DATABASE_TABLE,
+                null,
+                null,
+                null,
+                null,
+                null,
+                "$USERNAME ASC"
+        )
+    }
+
     fun queryByUsername(id: String): Cursor {
         return database.query(
                 DATABASE_TABLE,
