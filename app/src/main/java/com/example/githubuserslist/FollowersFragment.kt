@@ -48,12 +48,12 @@ class FollowersFragment : Fragment() {
             this, ViewModelProvider.NewInstanceFactory()
         ).get(MainViewModel::class.java)
 
-        val dataUser = activity!!.intent.getParcelableExtra(EXTRA_USERNAME) as UserItems
+        val dataUser = requireActivity().intent.getParcelableExtra(EXTRA_USERNAME) as UserItems
         val url = "https://api.github.com/users/"+dataUser.username.toString()+"/followers"
-        followersViewModel.getList(url, activity!!.applicationContext)
+        followersViewModel.getList(url, requireActivity().applicationContext)
         showLoading(true)
 
-        followersViewModel.getUsers().observe(activity!!, Observer { listFollowers ->
+        followersViewModel.getUsers().observe(requireActivity(), Observer { listFollowers ->
             if (listFollowers != null) {
                 adapter.setData(listFollowers)
                 showLoading(false)

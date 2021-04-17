@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.githubuserslist.FavoriteUser
 import com.example.githubuserslist.R
 import com.example.githubuserslist.UserDetail
 import com.example.githubuserslist.entity.FavoriteItems

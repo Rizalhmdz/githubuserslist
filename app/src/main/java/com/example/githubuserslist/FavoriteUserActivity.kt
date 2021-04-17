@@ -1,9 +1,12 @@
 package com.example.githubuserslist
 
 import android.content.Intent
+import android.database.ContentObserver
 import android.media.tv.TvContract.Channels.CONTENT_URI
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.HandlerThread
 import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
@@ -22,7 +25,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class FavoriteUser : AppCompatActivity() {
+class FavoriteUserActivity : AppCompatActivity() {
 
 
 
@@ -39,8 +42,10 @@ class FavoriteUser : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityFavoriteUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         favoriteUserHelper = FavoriteUserHelper.getInstance(applicationContext)
         favoriteUserHelper.open()
+
 
         setActionBarTitle()
 
@@ -52,6 +57,18 @@ class FavoriteUser : AppCompatActivity() {
 
         favoriteViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
                 MainViewModel::class.java)
+
+//        val handlerThread = HandlerThread("DataObserver")
+//        handlerThread.start()
+//        val handler = Handler(handlerThread.looper)
+//        val myObserver = object : ContentObserver(handler) {
+//            override fun onChange(self: Boolean) {
+//                loadNotesAsync()
+//            }
+//        }
+//        contentResolver.registerContentObserver(CONTENT_URI, true, myObserver)
+
+
 
         if (savedInstanceState == null) {
             loadNotesAsync()
@@ -95,6 +112,7 @@ class FavoriteUser : AppCompatActivity() {
             showLoading(true)
             val defFav = async(Dispatchers.IO) {
                 val cursor = favoriteUserHelper.queryAll()
+//                val cursor = contentResolver.query(CONTENT_URI, null, null, null, null)
                 MappingHelper.mapCursorToArrayList(cursor)
             }
             val favoriteData = defFav.await()

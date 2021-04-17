@@ -20,17 +20,16 @@
         <provider
             android:name=".Provider.FavoriteProvider"
             android:authorities="com.example.githubuserslist"
-            android:enabled="true"
             android:exported="true"
-            android:readPermission="com.dicoding.mynotesapp.READ_DATABASE"
-            android:writePermission="com.dicoding.mynotesapp.WRITE_DATABASE"></provider>
+            android:readPermission="com.example.githubuserslist.READ_DATABASE"
+            android:writePermission="com.example.githubuserslist.WRITE_DATABASE"></provider>
 
         <activity android:name=".model.ReminderActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".FavoriteUser">
+        <activity android:name=".FavoriteUserActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
@@ -60,5 +59,4 @@
             android:enabled="true"
             android:permission="TODO" />
     </application>
-
 </manifest>

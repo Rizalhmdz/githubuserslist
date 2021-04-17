@@ -13,14 +13,12 @@ import androidx.core.content.contentValuesOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.example.githubuserslist.Adapter.FavoriteAdapter
 import com.example.githubuserslist.Adapter.SectionPagerDetailAdapter
 import com.example.githubuserslist.Adapter.UserAdapter
 import com.example.githubuserslist.databinding.ActivityUserDetailBinding
 import com.example.githubuserslist.db.DatabaseContract
 import com.example.githubuserslist.Helper.FavoriteUserHelper
 import com.example.githubuserslist.Helper.MappingHelper
-import com.example.githubuserslist.entity.FavoriteItems
 import com.example.githubuserslist.entity.UserItems
 import com.example.githubuserslist.model.MainViewModel
 import com.google.android.material.tabs.TabLayout
@@ -33,7 +31,7 @@ import kotlinx.coroutines.launch
 class UserDetail : AppCompatActivity(), View.OnClickListener {
 
     companion object {
-        val EXTRA_USERNAME_FAV = "extra_username"
+//        val EXTRA_USERNAME_FAV = "extra_username"
         val TAG = UserDetail::class.java.simpleName
         const val EXTRA_USERNAME = "extra_username"
         @StringRes
@@ -188,7 +186,7 @@ class UserDetail : AppCompatActivity(), View.OnClickListener {
                 startActivity(mIntent)
             }
             R.id.favorite_page -> {
-                val mIntent = Intent(this, FavoriteUser::class.java)
+                val mIntent = Intent(this, FavoriteUserActivity::class.java)
                 startActivity(mIntent)
             }
         }

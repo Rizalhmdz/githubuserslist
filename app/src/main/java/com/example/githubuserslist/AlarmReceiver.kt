@@ -22,7 +22,7 @@ class AlarmReceiver : BroadcastReceiver() {
             const val CHANNEL_NAME = "Daily Reminder"
 
             private const val ID_REMINDER = 100
-            private const val TIME_DAILY = "16:48" // set the alarm time here
+            private const val TIME_DAILY = "17:48" // set the alarm time here
         }
 
         override fun onReceive(context: Context, intent: Intent) {

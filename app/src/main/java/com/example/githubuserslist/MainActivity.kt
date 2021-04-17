@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
 //                alarmReceiver.unsetReminder(this)
             }
             R.id.favorite_page -> {
-                val mIntent = Intent(this, FavoriteUser::class.java)
+                val mIntent = Intent(this, FavoriteUserActivity::class.java)
                 startActivity(mIntent)
             }
             R.id.set_reminder -> {
