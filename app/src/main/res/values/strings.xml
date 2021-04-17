@@ -18,8 +18,8 @@
     <string name="username_text">username</string>
     <string name="name_text">name_text</string>
     <string name="change_languange">Change Language</string>
+    <string name="set_reminder">Set Reminder</string>
+    <string name="change_language">Change Language</string>
+    <string name="key_reminder">keyReminder</string>
     <string name="Reminder">Reminder at 9.00 AM</string>
-    <string name="key_alaram">keyAlarm</string>
-    <string name="select_language">Select Language</string>
-    <string name="result">Result for</string>
 </resources>

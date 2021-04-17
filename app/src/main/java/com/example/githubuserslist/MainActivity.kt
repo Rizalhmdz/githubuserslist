@@ -7,12 +7,12 @@ import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuserslist.Adapter.UserAdapter
 import com.example.githubuserslist.databinding.ActivityMainBinding
 import com.example.githubuserslist.model.MainViewModel
+import com.example.githubuserslist.model.ReminderActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.adapter = adapter
 
         mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
-            MainViewModel::class.java)
+                MainViewModel::class.java)
 
         binding.btnSearch.setOnClickListener {
             val keyword = binding.editUsername.text.toString()
@@ -59,12 +59,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.setting_page -> {
+            R.id.change_language -> {
                 val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
                 startActivity(mIntent)
             }
             R.id.favorite_page -> {
                 val mIntent = Intent(this, FavoriteUser::class.java)
+                startActivity(mIntent)
+            }
+            R.id.set_reminder -> {
+                val mIntent = Intent(this, ReminderActivity::class.java)
                 startActivity(mIntent)
             }
         }

@@ -183,7 +183,7 @@ class UserDetail : AppCompatActivity(), View.OnClickListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.setting_page -> {
+            R.id.change_language -> {
                 val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
                 startActivity(mIntent)
             }

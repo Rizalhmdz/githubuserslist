@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-
-    >
-
-<!--    <SwitchPreference-->
-<!--        android:key="@string/key_alaram"-->
-<!--        android:selectAllOnFocus="true"-->
-<!--        android:singleLine="true"-->
-<!--        android:title="@string/Reminder"-->
-<!--        app:iconSpaceReserved="false" />-->
-<!--    <Preference-->
-<!--        android:key="@string/select_language"-->
-<!--        android:selectAllOnFocus="true"-->
-<!--        android:singleLine="true"-->
-<!--        android:title="@string/select_language"-->
-<!--        app:iconSpaceReserved="false" />-->
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <SwitchPreference
+        android:key="@string/key_reminder"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:icon="@drawable/ic_baseline_alarm_24"
+        android:title="@string/Reminder"
+        app:iconSpaceReserved="false" />
 </PreferenceScreen>
