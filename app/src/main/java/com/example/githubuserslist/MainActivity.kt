@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: UserAdapter
     private lateinit var mainViewModel: MainViewModel
     private lateinit var binding: ActivityMainBinding
+    lateinit var alarmReceiver : AlarmReceiver
 
     companion object {
         val TAG = MainActivity::class.java.simpleName
@@ -30,6 +31,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         showLoading(false)
+
+        alarmReceiver = AlarmReceiver()
 
         adapter = UserAdapter()
         adapter.notifyDataSetChanged()
@@ -62,6 +65,7 @@ class MainActivity : AppCompatActivity() {
             R.id.change_language -> {
                 val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
                 startActivity(mIntent)
+//                alarmReceiver.unsetReminder(this)
             }
             R.id.favorite_page -> {
                 val mIntent = Intent(this, FavoriteUser::class.java)
@@ -70,6 +74,7 @@ class MainActivity : AppCompatActivity() {
             R.id.set_reminder -> {
                 val mIntent = Intent(this, ReminderActivity::class.java)
                 startActivity(mIntent)
+//                alarmReceiver.setReminder(this, AlarmReceiver.TYPE_DAILY, "alaram ck")
             }
         }
         return super.onOptionsItemSelected(item)

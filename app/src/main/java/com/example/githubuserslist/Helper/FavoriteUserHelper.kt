@@ -24,7 +24,6 @@ class FavoriteUserHelper(context: Context) {
 
     }
 
-
     init {
         dataBaseHelper = DatabaseHelper(context)
     }
@@ -76,4 +75,5 @@ class FavoriteUserHelper(context: Context) {
     fun deleteByUsername(id: String): Int {
         return database.delete(DATABASE_TABLE, "$USERNAME = '$id'", null)
     }
+
 }
