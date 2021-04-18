@@ -1,3 +1,35 @@
 <resources>
-    <string name="app_name">ConsumeApp</string>
+    <string name="app_name">Consume App</string>
+    <string name="search_viewholder">Search here...</string>
+    <string name="search">Search</string>
+    <string name="follower">follower</string>
+    <string name="following">following</string>
+    <string name="tab_text_1">Following</string>
+    <string name="tab_text_2">Followers</string>
+    <string name="search_page">search in here</string>
+    <string name="no_result">No results found for</string>
+    <string name="no_set">not set up yet</string>
+    <string name="null_username">-</string>
+    <string name="null_name">-</string>
+    <string name="following_text">Following</string>
+    <string name="followers_text">Followers</string>
+    <string name="location_text">Location</string>
+    <string name="total_text">total</string>
+    <string name="username_text">username</string>
+    <string name="name_text">name_text</string>
+    <string name="change_languange">Change Language</string>
+    <string name="set_reminder">Set Reminder</string>
+    <string name="change_language">Change Language</string>
+    <string name="key_reminder">keyReminder</string>
+    <string name="Reminder">Reminder at 9.00 AM</string>
+    <string name="not_found">List Not Found</string>
+    <string name="enable_reminder">Reminder is Enable</string>
+    <string name="disable_reminder">Reminder is Disable</string>
+    <string name="title_reminder">Daily Reminder</string>
+    <string name="reminder_msg">Good Morning</string>
+    <string name="favorite_users">Favorite Users</string>
+    <string name="added_to_favorite">Added to Favorite</string>
+    <string name="deleted_from_favorite">deleted from Favorite</string>
+    <string name="result">Result</string>
+    <string name="searching_for">Searcing for</string>
 </resources>
