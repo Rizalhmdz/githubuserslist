@@ -52,7 +52,7 @@ class MainActivity() : AppCompatActivity() {
             if (keyword.isEmpty()) return@setOnClickListener
 
             showLoading(true)
-            binding.status.text = "Searcing for \"$keyword\""
+            binding.status.text = getString(R.string.searching_for)+" \""+ keyword + "\""
             mainViewModel.getSearch(url, this)
         }
 
@@ -103,7 +103,7 @@ class MainActivity() : AppCompatActivity() {
         mainViewModel.getUsers().observe(this, { userItems ->
             if (userItems != null) {
                 adapter.setData(userItems)
-                binding.status.text = "Result"
+                binding.status.text = getString(R.string.result)
                 showLoading(false)
             }
         })

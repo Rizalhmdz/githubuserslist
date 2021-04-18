@@ -30,4 +30,6 @@
     <string name="favorite_users">Favorite Users</string>
     <string name="added_to_favorite">Added to Favorite</string>
     <string name="deleted_from_favorite">deleted from Favorite</string>
+    <string name="result">Result</string>
+    <string name="searching_for">Searcing for</string>
 </resources>

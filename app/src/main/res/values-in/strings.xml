@@ -30,4 +30,6 @@
     <string name="favorite_users">Pengguna Favorit</string>
     <string name="added_to_favorite">Ditambahkan ke Favorit</string>
     <string name="deleted_from_favorite">Dihapus dari Favorit</string>
+    <string name="result">Hasil Pencarian</string>
+    <string name="searching_for">Pencarian Untuk </string>
 </resources>
