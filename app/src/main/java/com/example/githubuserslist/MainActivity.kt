@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuserslist.Adapter.UserAdapter
 import com.example.githubuserslist.databinding.ActivityMainBinding
+import com.example.githubuserslist.model.AlarmReceiver
 import com.example.githubuserslist.model.MainViewModel
 import com.example.githubuserslist.model.ReminderActivity
 

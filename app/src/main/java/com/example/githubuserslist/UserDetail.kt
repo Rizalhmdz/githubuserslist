@@ -1,7 +1,6 @@
 package com.example.githubuserslist
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.view.Menu
@@ -9,16 +8,17 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.contentValuesOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.githubuserslist.Adapter.SectionPagerDetailAdapter
 import com.example.githubuserslist.Adapter.UserAdapter
-import com.example.githubuserslist.databinding.ActivityUserDetailBinding
-import com.example.githubuserslist.db.DatabaseContract
 import com.example.githubuserslist.Helper.FavoriteUserHelper
 import com.example.githubuserslist.Helper.MappingHelper
+import com.example.githubuserslist.databinding.ActivityUserDetailBinding
+import com.example.githubuserslist.db.DatabaseContract
 import com.example.githubuserslist.entity.UserItems
 import com.example.githubuserslist.model.MainViewModel
 import com.google.android.material.tabs.TabLayout
@@ -78,7 +78,7 @@ class UserDetail : AppCompatActivity(), View.OnClickListener {
     private fun favoriteChecker() {
         GlobalScope.launch(Dispatchers.Main) {
             val deferredNotes = async(Dispatchers.IO) {
-                val cursor = username?.let { favoriteUserHelper.queryByUsername(it) }
+                val cursor = username?.let { favoriteUserHelper.queryById(it) }
                 MappingHelper.mapCursorToArrayList(cursor)
             }
             val rowUsername = deferredNotes.await()
@@ -101,7 +101,7 @@ class UserDetail : AppCompatActivity(), View.OnClickListener {
             .load(dataUser.profile_picture)
             .into(binding.detailPp)
         binding.usernameDetail.text = dataUser.username
-        if(dataUser.name == "null") binding.detailLocation.text = getString(R.string.null_name)
+        if(dataUser.name == "null") binding.nameDetail.text = "-"
         else binding.nameDetail.text = dataUser.name
         if(dataUser.location == "null") binding.detailLocation.text = getString(R.string.no_set)
         else binding.detailLocation.text = dataUser.location
@@ -133,7 +133,7 @@ class UserDetail : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View) {
         if (view.id == R.id.fab_favorite) {
             if(isFavorite == true){
-                this.username?.let { favoriteUserHelper.deleteByUsername(it) }
+                this.username?.let { favoriteUserHelper.deleteById(it) }
                 isFavorite = false
                 setStatusFavorite(isFavorite)
                 Toast.makeText(this, "deleted from Favorite", Toast.LENGTH_SHORT).show()

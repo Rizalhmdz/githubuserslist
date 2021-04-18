@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.githubuserslist.R
 import com.example.githubuserslist.UserDetail
-import com.example.githubuserslist.entity.UserItems
 import com.example.githubuserslist.databinding.UserItemsBinding
+import com.example.githubuserslist.entity.UserItems
 
-class UserAdapter() : RecyclerView.Adapter<UserAdapter.UserViewHolder>(){
+class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>(){
 
     private val mData = ArrayList<UserItems>()
     fun setData(items: ArrayList<UserItems>) {

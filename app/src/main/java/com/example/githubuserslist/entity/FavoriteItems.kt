@@ -5,11 +5,10 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class FavoriteItems(
-    var id: Int,
-    var name: String? = "",
-    var username: String? = "",
-    var profile_picture: String? = "",
-    var followers: String? = "",
-    var following: String? = "",
-    var location: String?  = ""
+        var name: String? = "",
+        var username: String? = "",
+        var profile_picture: String? = "",
+        var followers: String? = "",
+        var following: String? = "",
+        var location: String? = ""
 ) : Parcelable

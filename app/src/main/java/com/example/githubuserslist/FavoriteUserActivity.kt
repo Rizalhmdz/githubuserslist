@@ -2,8 +2,6 @@ package com.example.githubuserslist
 
 import android.content.Intent
 import android.database.ContentObserver
-import android.media.tv.TvContract.Channels.CONTENT_URI
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
@@ -11,14 +9,14 @@ import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuserslist.Adapter.FavoriteAdapter
-import com.example.githubuserslist.Helper.FavoriteUserHelper
 import com.example.githubuserslist.Helper.MappingHelper
 import com.example.githubuserslist.databinding.ActivityFavoriteUserBinding
+import com.example.githubuserslist.db.DatabaseContract.FavoriteUserColumns.Companion.CONTENT_URI
 import com.example.githubuserslist.entity.FavoriteItems
-import com.example.githubuserslist.model.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -30,9 +28,9 @@ class FavoriteUserActivity : AppCompatActivity() {
 
 
     private lateinit var adapter: FavoriteAdapter
-    private lateinit var favoriteViewModel: MainViewModel
+//    private lateinit var favoriteViewModel: MainViewModel
     private lateinit var binding: ActivityFavoriteUserBinding
-    private lateinit var favoriteUserHelper: FavoriteUserHelper
+//    private lateinit var favoriteUserHelper: FavoriteUserHelper
 
     companion object {
         private const val EXTRA_STATE = "EXTRA_STATE"
@@ -43,8 +41,8 @@ class FavoriteUserActivity : AppCompatActivity() {
         binding = ActivityFavoriteUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        favoriteUserHelper = FavoriteUserHelper.getInstance(applicationContext)
-        favoriteUserHelper.open()
+//        favoriteUserHelper = FavoriteUserHelper.getInstance(applicationContext)
+//        favoriteUserHelper.open()
 
 
         setActionBarTitle()
@@ -52,23 +50,26 @@ class FavoriteUserActivity : AppCompatActivity() {
         binding.recyclerViewFavorite.layoutManager = LinearLayoutManager(this)
         binding.recyclerViewFavorite.setHasFixedSize(true)
 
-        adapter = FavoriteAdapter(this)
+        adapter = FavoriteAdapter()
         binding.recyclerViewFavorite.adapter = adapter
-
-        favoriteViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
-                MainViewModel::class.java)
-
-//        val handlerThread = HandlerThread("DataObserver")
-//        handlerThread.start()
-//        val handler = Handler(handlerThread.looper)
-//        val myObserver = object : ContentObserver(handler) {
-//            override fun onChange(self: Boolean) {
-//                loadNotesAsync()
-//            }
-//        }
-//        contentResolver.registerContentObserver(CONTENT_URI, true, myObserver)
-
-
+//
+//        favoriteViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
+//                MainViewModel::class.java)
+        try{
+            val handlerThread = HandlerThread("DataObserver")
+            handlerThread.start()
+            val handler = Handler(handlerThread.looper)
+            val myObserver = object : ContentObserver(handler) {
+                override fun onChange(self: Boolean) {
+                    loadNotesAsync()
+                }
+            }
+            contentResolver.registerContentObserver(CONTENT_URI, true, myObserver)
+        }
+        catch (e: Exception){
+            Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+            e.printStackTrace()
+        }
 
         if (savedInstanceState == null) {
             loadNotesAsync()
@@ -111,8 +112,8 @@ class FavoriteUserActivity : AppCompatActivity() {
         GlobalScope.launch(Dispatchers.Main) {
             showLoading(true)
             val defFav = async(Dispatchers.IO) {
-                val cursor = favoriteUserHelper.queryAll()
-//                val cursor = contentResolver.query(CONTENT_URI, null, null, null, null)
+//                val cursor = favoriteUserHelper.queryAll()
+                val cursor = contentResolver?.query(CONTENT_URI, null, null, null, null)
                 MappingHelper.mapCursorToArrayList(cursor)
             }
             val favoriteData = defFav.await()
@@ -130,10 +131,10 @@ class FavoriteUserActivity : AppCompatActivity() {
         loadNotesAsync()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        favoriteUserHelper.close()
-    }
+//    override fun onDestroy() {
+//        super.onDestroy()
+////        favoriteUserHelper.close()
+//    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)

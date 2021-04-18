@@ -1,9 +1,9 @@
 package com.example.githubuserslist.model
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.example.githubuserslist.Fragment.SettingPreference
 import com.example.githubuserslist.R
-import com.example.githubuserslist.SettingPreference
 import com.example.githubuserslist.databinding.ActivityReminderBinding
 
 class ReminderActivity : AppCompatActivity() {

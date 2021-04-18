@@ -10,7 +10,6 @@ object MappingHelper {
         val favoritesList = ArrayList<FavoriteItems>()
         notesCursor?.apply {
             while (moveToNext()) {
-                val id = getInt(getColumnIndexOrThrow(DatabaseContract.FavoriteUserColumns._ID))
                 val name = getString(getColumnIndexOrThrow(DatabaseContract.FavoriteUserColumns.NAME))
                 val username = getString(getColumnIndexOrThrow(DatabaseContract.FavoriteUserColumns.USERNAME))
                 val profile_picture = getString(getColumnIndexOrThrow(DatabaseContract.FavoriteUserColumns.PROFILE_PICTURE))
@@ -18,26 +17,25 @@ object MappingHelper {
                 val followers = getString(getColumnIndexOrThrow(DatabaseContract.FavoriteUserColumns.FOLLOWERS))
                 val location = getString(getColumnIndexOrThrow(DatabaseContract.FavoriteUserColumns.LOCATION))
 
-                favoritesList.add(FavoriteItems(id, name, username, profile_picture, followers, following, location))
+                favoritesList.add(FavoriteItems(name, username, profile_picture, followers, following, location))
             }
         }
         return favoritesList
     }
 
-//    fun mapCursorToObject(favoritCursor: Cursor?): FavoriteItems {
-//        var favoriteItems = FavoriteItems()
-//        favoritCursor?.apply {
-//            moveToFirst()
-//            val id = getInt(getColumnIndexOrThrow(DatabaseContract.FavoriteUserColumns._ID))
-//            val username = getString(getColumnIndexOrThrow(DatabaseContract.FavoriteUserColumns.NAME))
-//            val name = getString(getColumnIndexOrThrow(DatabaseContract.FavoriteUserColumns.USERNAME))
-//            val profile_picture = getString(getColumnIndexOrThrow(DatabaseContract.FavoriteUserColumns.PROFILE_PICTURE))
-//            val followers = getString(getColumnIndexOrThrow(DatabaseContract.FavoriteUserColumns.FOLLOWERS))
-//            val following = getString(getColumnIndexOrThrow(DatabaseContract.FavoriteUserColumns.FOLLOWING))
-//            val location = getString(getColumnIndexOrThrow(DatabaseContract.FavoriteUserColumns.LOCATION))
-//            favoriteItems = FavoriteItems(id, name, username, profile_picture, followers, following, location)
-//        }
-//        return favoriteItems
-//    }
+    fun mapCursorToObject(favoritCursor: Cursor?): FavoriteItems {
+        var favoriteItems = FavoriteItems()
+        favoritCursor?.apply {
+            moveToFirst()
+            val username = getString(getColumnIndexOrThrow(DatabaseContract.FavoriteUserColumns.NAME))
+            val name = getString(getColumnIndexOrThrow(DatabaseContract.FavoriteUserColumns.USERNAME))
+            val profile_picture = getString(getColumnIndexOrThrow(DatabaseContract.FavoriteUserColumns.PROFILE_PICTURE))
+            val followers = getString(getColumnIndexOrThrow(DatabaseContract.FavoriteUserColumns.FOLLOWERS))
+            val following = getString(getColumnIndexOrThrow(DatabaseContract.FavoriteUserColumns.FOLLOWING))
+            val location = getString(getColumnIndexOrThrow(DatabaseContract.FavoriteUserColumns.LOCATION))
+            favoriteItems = FavoriteItems(name, username, profile_picture, followers, following, location)
+        }
+        return favoriteItems
+    }
 
 }
