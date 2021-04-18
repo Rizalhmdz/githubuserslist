@@ -15,10 +15,10 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.githubuserslist.Adapter.SectionPagerDetailAdapter
 import com.example.githubuserslist.Adapter.UserAdapter
-import com.example.githubuserslist.Helper.FavoriteUserHelper
 import com.example.githubuserslist.Helper.MappingHelper
 import com.example.githubuserslist.databinding.ActivityUserDetailBinding
 import com.example.githubuserslist.db.DatabaseContract
+import com.example.githubuserslist.db.DatabaseContract.FavoriteUserColumns.Companion.CONTENT_URI
 import com.example.githubuserslist.entity.UserItems
 import com.example.githubuserslist.model.MainViewModel
 import com.example.githubuserslist.model.ReminderActivity
@@ -40,8 +40,8 @@ class UserDetail : AppCompatActivity(), View.OnClickListener {
                 R.string.tab_text_2,
         )
     }
-
-    private lateinit var favoriteUserHelper: FavoriteUserHelper
+//
+//    private lateinit var favoriteUserHelper: FavoriteUserHelper
     private lateinit var binding: ActivityUserDetailBinding
     private lateinit var mainViewModel: MainViewModel
     private lateinit var adapter: UserAdapter
@@ -63,8 +63,8 @@ class UserDetail : AppCompatActivity(), View.OnClickListener {
         adapter = UserAdapter()
         adapter.notifyDataSetChanged()
         mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
-        favoriteUserHelper = FavoriteUserHelper.getInstance(applicationContext)
-        favoriteUserHelper.open()
+//        favoriteUserHelper = FavoriteUserHelper.getInstance(applicationContext)
+//        favoriteUserHelper.open()
         setData()
         favoriteChecker()
 
@@ -77,7 +77,8 @@ class UserDetail : AppCompatActivity(), View.OnClickListener {
     private fun favoriteChecker() {
         GlobalScope.launch(Dispatchers.Main) {
             val deferredNotes = async(Dispatchers.IO) {
-                val cursor = username?.let { favoriteUserHelper.queryById(it) }
+//                val cursor = username?.let { favoriteUserHelper.queryById(it) }
+                val cursor = contentResolver.query(CONTENT_URI, null, null, null, null)
                 MappingHelper.mapCursorToArrayList(cursor)
             }
             val rowUsername = deferredNotes.await()
@@ -132,13 +133,14 @@ class UserDetail : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View) {
         if (view.id == R.id.fab_favorite) {
             if(isFavorite == true){
-                this.username?.let { favoriteUserHelper.deleteById(it) }
+//                this.username?.let { favoriteUserHelper.deleteById(it) }
+                contentResolver.delete(CONTENT_URI, this.username, null)
                 isFavorite = false
                 setStatusFavorite(isFavorite)
                 Toast.makeText(this, getString(R.string.deleted_from_favorite), Toast.LENGTH_SHORT).show()
             }
             else{
-                favoriteUserHelper.open()
+//                favoriteUserHelper.open()
                 val values = contentValuesOf(
                     DatabaseContract.FavoriteUserColumns.USERNAME to this.username,
                     DatabaseContract.FavoriteUserColumns.NAME to this.name,
@@ -147,7 +149,8 @@ class UserDetail : AppCompatActivity(), View.OnClickListener {
                     DatabaseContract.FavoriteUserColumns.FOLLOWERS to this.followers,
                     DatabaseContract.FavoriteUserColumns.LOCATION to this.location
                 )
-                favoriteUserHelper.insert(values)
+                contentResolver.insert(CONTENT_URI, values)
+//                favoriteUserHelper.insert(values)
                 isFavorite = true
                 setStatusFavorite(isFavorite)
                 Toast.makeText(this, getString(R.string.added_to_favorite), Toast.LENGTH_SHORT).show()
@@ -167,11 +170,11 @@ class UserDetail : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-
-    override fun onDestroy() {
-        super.onDestroy()
-        favoriteUserHelper.close()
-    }
+//
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        favoriteUserHelper.close()
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.setting_menu, menu)

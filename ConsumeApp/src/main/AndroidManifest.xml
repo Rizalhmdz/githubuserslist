@@ -4,10 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <permission
-        android:name="com.example.githubuserslist.READ_DATABASE"/>
-    <permission
-        android:name="com.example.githubuserslist.WRITE_DATABASE"/>
+    <uses-permission android:name="com.example.githubuserslist.READ_DATABASE"/>
+    <uses-permission android:name="com.example.githubuserslist.WRITE_DATABASE"/>
 
     <application
         android:allowBackup="true"
@@ -36,6 +34,6 @@
         </activity>
     </application>
     <queries>
-        <package android:name="com.example.consumeapp" />
+        <package android:name="com.example.githubuserslist" />
     </queries>
 </manifest>
