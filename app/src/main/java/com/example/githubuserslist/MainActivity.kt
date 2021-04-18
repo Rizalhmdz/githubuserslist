@@ -1,21 +1,22 @@
 package com.example.githubuserslist
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuserslist.Adapter.UserAdapter
 import com.example.githubuserslist.databinding.ActivityMainBinding
+import com.example.githubuserslist.entity.UserItems
 import com.example.githubuserslist.model.AlarmReceiver
 import com.example.githubuserslist.model.MainViewModel
 import com.example.githubuserslist.model.ReminderActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity() : AppCompatActivity() {
 
     private lateinit var adapter: UserAdapter
     private lateinit var mainViewModel: MainViewModel
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         val TAG = MainActivity::class.java.simpleName
+        const val EXTRA_STATE = "EXTRA_STATE"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +55,15 @@ class MainActivity : AppCompatActivity() {
             binding.status.text = "Searcing for \"$keyword\""
             mainViewModel.getSearch(url, this)
         }
-        setList()
+
+        if (savedInstanceState == null) {
+            setList()
+        } else {
+            val list = savedInstanceState.getParcelableArrayList<UserItems>(MainActivity.EXTRA_STATE)
+            if (list != null) {
+                adapter.mData = list
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -66,7 +76,6 @@ class MainActivity : AppCompatActivity() {
             R.id.change_language -> {
                 val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
                 startActivity(mIntent)
-//                alarmReceiver.unsetReminder(this)
             }
             R.id.favorite_page -> {
                 val mIntent = Intent(this, FavoriteUserActivity::class.java)
@@ -75,10 +84,19 @@ class MainActivity : AppCompatActivity() {
             R.id.set_reminder -> {
                 val mIntent = Intent(this, ReminderActivity::class.java)
                 startActivity(mIntent)
-//                alarmReceiver.setReminder(this, AlarmReceiver.TYPE_DAILY, "alaram ck")
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setList()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelableArrayList(EXTRA_STATE, adapter.mData)
     }
 
     private fun setList() {

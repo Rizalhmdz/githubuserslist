@@ -55,7 +55,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 AlarmManager.INTERVAL_DAY,
                 pendingIntent
             )
-            Toast.makeText(context, "Reminder is Enable", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.enable_reminder), Toast.LENGTH_SHORT).show()
         }
 
         fun unsetReminder(context: Context) {
@@ -65,7 +65,7 @@ class AlarmReceiver : BroadcastReceiver() {
             val pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, 0)
             pendingIntent.cancel()
             alarmManager.cancel(pendingIntent)
-            Toast.makeText(context, "Reminder is Disable", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.disable_reminder), Toast.LENGTH_SHORT).show()
         }
 
         private fun showAlarmNotification(context: Context, message: String?) {
@@ -84,7 +84,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             val builder = NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(R.drawable.ic_baseline_alarm_24)
-                .setContentTitle("Daily Reminder")
+                .setContentTitle(context.getString(R.string.title_reminder))
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)

@@ -22,4 +22,12 @@
     <string name="change_language">Change Language</string>
     <string name="key_reminder">keyReminder</string>
     <string name="Reminder">Reminder at 9.00 AM</string>
+    <string name="not_found">List Not Found</string>
+    <string name="enable_reminder">Reminder is Enable</string>
+    <string name="disable_reminder">Reminder is Disable</string>
+    <string name="title_reminder">Daily Reminder</string>
+    <string name="reminder_msg">Good Morning</string>
+    <string name="favorite_users">Favorite Users</string>
+    <string name="added_to_favorite">Added to Favorite</string>
+    <string name="deleted_from_favorite">deleted from Favorite</string>
 </resources>

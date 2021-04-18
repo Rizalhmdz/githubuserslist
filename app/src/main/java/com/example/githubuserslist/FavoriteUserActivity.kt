@@ -11,12 +11,15 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuserslist.Adapter.FavoriteAdapter
 import com.example.githubuserslist.Helper.MappingHelper
 import com.example.githubuserslist.databinding.ActivityFavoriteUserBinding
 import com.example.githubuserslist.db.DatabaseContract.FavoriteUserColumns.Companion.CONTENT_URI
 import com.example.githubuserslist.entity.FavoriteItems
+import com.example.githubuserslist.model.MainViewModel
+import com.example.githubuserslist.model.ReminderActivity
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -28,22 +31,17 @@ class FavoriteUserActivity : AppCompatActivity() {
 
 
     private lateinit var adapter: FavoriteAdapter
-//    private lateinit var favoriteViewModel: MainViewModel
+    private lateinit var favoriteViewModel: MainViewModel
     private lateinit var binding: ActivityFavoriteUserBinding
-//    private lateinit var favoriteUserHelper: FavoriteUserHelper
 
     companion object {
-        private const val EXTRA_STATE = "EXTRA_STATE"
+        const val EXTRA_STATE = "EXTRA_STATE"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFavoriteUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-//        favoriteUserHelper = FavoriteUserHelper.getInstance(applicationContext)
-//        favoriteUserHelper.open()
-
 
         setActionBarTitle()
 
@@ -52,9 +50,9 @@ class FavoriteUserActivity : AppCompatActivity() {
 
         adapter = FavoriteAdapter()
         binding.recyclerViewFavorite.adapter = adapter
-//
-//        favoriteViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
-//                MainViewModel::class.java)
+
+        favoriteViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
+                MainViewModel::class.java)
         try{
             val handlerThread = HandlerThread("DataObserver")
             handlerThread.start()
@@ -93,8 +91,12 @@ class FavoriteUserActivity : AppCompatActivity() {
                 startActivity(mIntent)
             }
             R.id.favorite_page -> {
-//                val mIntent = Intent(this, FavoriteUser::class.java)
-//                startActivity(mIntent)
+                val mIntent = Intent(this, FavoriteUserActivity::class.java)
+                startActivity(mIntent)
+            }
+            R.id.set_reminder -> {
+                val mIntent = Intent(this, ReminderActivity::class.java)
+                startActivity(mIntent)
             }
         }
         return super.onOptionsItemSelected(item)
@@ -112,7 +114,6 @@ class FavoriteUserActivity : AppCompatActivity() {
         GlobalScope.launch(Dispatchers.Main) {
             showLoading(true)
             val defFav = async(Dispatchers.IO) {
-//                val cursor = favoriteUserHelper.queryAll()
                 val cursor = contentResolver?.query(CONTENT_URI, null, null, null, null)
                 MappingHelper.mapCursorToArrayList(cursor)
             }
@@ -122,7 +123,7 @@ class FavoriteUserActivity : AppCompatActivity() {
                 adapter.listFavoriteUser = favoriteData
             } else {
                 adapter.listFavoriteUser = ArrayList()
-                showSnackbarMessage("List Not Found")
+                showSnackbarMessage(getString(R.string.not_found))
             }
         }
     }
@@ -130,11 +131,6 @@ class FavoriteUserActivity : AppCompatActivity() {
         super.onResume()
         loadNotesAsync()
     }
-
-//    override fun onDestroy() {
-//        super.onDestroy()
-////        favoriteUserHelper.close()
-//    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -146,7 +142,7 @@ class FavoriteUserActivity : AppCompatActivity() {
     }
     private fun setActionBarTitle() {
         if (supportActionBar != null) {
-            supportActionBar?.title = "Favorite Users"
+            supportActionBar?.title = getString(R.string.favorite_users)
         }
     }
 }

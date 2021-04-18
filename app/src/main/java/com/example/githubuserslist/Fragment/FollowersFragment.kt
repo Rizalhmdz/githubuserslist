@@ -1,14 +1,15 @@
-package com.example.githubuserslist
+package com.example.githubuserslist.Fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuserslist.Adapter.UserAdapter
+import com.example.githubuserslist.R
 import com.example.githubuserslist.entity.UserItems
 import com.example.githubuserslist.model.MainViewModel
 import kotlinx.android.synthetic.main.fragment_followers.*

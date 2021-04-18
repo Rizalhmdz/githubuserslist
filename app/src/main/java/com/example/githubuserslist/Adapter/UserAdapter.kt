@@ -12,8 +12,7 @@ import com.example.githubuserslist.databinding.UserItemsBinding
 import com.example.githubuserslist.entity.UserItems
 
 class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>(){
-
-    private val mData = ArrayList<UserItems>()
+    var mData = ArrayList<UserItems>()
     fun setData(items: ArrayList<UserItems>) {
         mData.clear()
         mData.addAll(items)
@@ -30,7 +29,6 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>(){
         val data = mData[position]
         holder.itemView.setOnClickListener {
             val dataUserIntent = UserItems(
-
                 data.name,
                 data.username,
                     data.profile_picture,

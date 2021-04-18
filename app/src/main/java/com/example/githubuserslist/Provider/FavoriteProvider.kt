@@ -14,13 +14,13 @@ import com.example.githubuserslist.db.DatabaseContract.FavoriteUserColumns.Compa
 class FavoriteProvider : ContentProvider() {
 
     companion object {
-        private const val FAVORIT = 1
-        private const val FAVORIT_ID = 2
+        private const val NOTE = 1
+        private const val NOTE_ID = 2
         private val sUriMatcher = UriMatcher(UriMatcher.NO_MATCH)
         private lateinit var favoriteUserHelper: FavoriteUserHelper
         init {
-            sUriMatcher.addURI(AUTHORITY, TABLE_NAME, FAVORIT)
-            sUriMatcher.addURI(AUTHORITY, "$TABLE_NAME/#", FAVORIT_ID)
+            sUriMatcher.addURI(AUTHORITY, TABLE_NAME, NOTE)
+//            sUriMatcher.addURI(AUTHORITY, "$TABLE_NAME/#", NOTE_ID)
         }
     }
 
@@ -29,20 +29,18 @@ class FavoriteProvider : ContentProvider() {
         favoriteUserHelper.open()
         return true
     }
+
     override fun query(uri: Uri, projection: Array<String>?, selection: String?, selectionArgs: Array<String>?, sortOrder: String?): Cursor? {
-        return when (sUriMatcher.match(uri)) {
-            FAVORIT -> favoriteUserHelper.queryAll()
-            FAVORIT_ID -> favoriteUserHelper.queryById(uri.lastPathSegment.toString())
-            else -> null
-        }
+        return favoriteUserHelper.queryAll()
     }
+
 
     override fun getType(uri: Uri): String? {
         return null
     }
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
-        val added: Long = when (FAVORIT) {
+        val added: Long = when (NOTE) {
             sUriMatcher.match(uri) -> {
                 favoriteUserHelper.insert(values)
             }
@@ -52,7 +50,7 @@ class FavoriteProvider : ContentProvider() {
         return Uri.parse("$CONTENT_URI/$added")
     }
     override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<String>?): Int {
-        val updated: Int = when (FAVORIT_ID) {
+        val updated: Int = when (NOTE_ID) {
             sUriMatcher.match(uri) -> favoriteUserHelper.update(uri.lastPathSegment.toString(),values)
             else -> 0
         }
@@ -61,7 +59,7 @@ class FavoriteProvider : ContentProvider() {
     }
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
-        val deleted: Int = when (FAVORIT_ID) {
+        val deleted: Int = when (NOTE_ID) {
             sUriMatcher.match(uri) -> favoriteUserHelper.deleteById(uri.lastPathSegment.toString())
             else -> 0
         }

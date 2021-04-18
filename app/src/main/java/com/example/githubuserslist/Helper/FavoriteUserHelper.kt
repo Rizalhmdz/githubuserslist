@@ -6,7 +6,6 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import com.example.githubuserslist.db.DatabaseContract.FavoriteUserColumns.Companion.TABLE_NAME
 import com.example.githubuserslist.db.DatabaseContract.FavoriteUserColumns.Companion.USERNAME
-import java.sql.SQLException
 
 class FavoriteUserHelper(context: Context) {
 
@@ -27,7 +26,6 @@ class FavoriteUserHelper(context: Context) {
         dataBaseHelper = DatabaseHelper(context)
     }
 
-    @Throws(SQLException::class)
     fun open() {
         database = dataBaseHelper.writableDatabase
     }

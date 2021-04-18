@@ -21,6 +21,7 @@ import com.example.githubuserslist.databinding.ActivityUserDetailBinding
 import com.example.githubuserslist.db.DatabaseContract
 import com.example.githubuserslist.entity.UserItems
 import com.example.githubuserslist.model.MainViewModel
+import com.example.githubuserslist.model.ReminderActivity
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.Dispatchers
@@ -31,7 +32,6 @@ import kotlinx.coroutines.launch
 class UserDetail : AppCompatActivity(), View.OnClickListener {
 
     companion object {
-//        val EXTRA_USERNAME_FAV = "extra_username"
         val TAG = UserDetail::class.java.simpleName
         const val EXTRA_USERNAME = "extra_username"
         @StringRes
@@ -45,7 +45,6 @@ class UserDetail : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityUserDetailBinding
     private lateinit var mainViewModel: MainViewModel
     private lateinit var adapter: UserAdapter
-//    private lateinit var adapterF: FavoriteAdapter
 
     private var isFavorite = false
 
@@ -136,7 +135,7 @@ class UserDetail : AppCompatActivity(), View.OnClickListener {
                 this.username?.let { favoriteUserHelper.deleteById(it) }
                 isFavorite = false
                 setStatusFavorite(isFavorite)
-                Toast.makeText(this, "deleted from Favorite", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.deleted_from_favorite), Toast.LENGTH_SHORT).show()
             }
             else{
                 favoriteUserHelper.open()
@@ -151,7 +150,7 @@ class UserDetail : AppCompatActivity(), View.OnClickListener {
                 favoriteUserHelper.insert(values)
                 isFavorite = true
                 setStatusFavorite(isFavorite)
-                Toast.makeText(this, "Added to Favorite", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.added_to_favorite), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -187,6 +186,10 @@ class UserDetail : AppCompatActivity(), View.OnClickListener {
             }
             R.id.favorite_page -> {
                 val mIntent = Intent(this, FavoriteUserActivity::class.java)
+                startActivity(mIntent)
+            }
+            R.id.set_reminder -> {
+                val mIntent = Intent(this, ReminderActivity::class.java)
                 startActivity(mIntent)
             }
         }
